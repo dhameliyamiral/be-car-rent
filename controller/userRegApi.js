@@ -19,10 +19,8 @@ const userRegApi = async (req, res) => {
         password: hashPassword,
         gender:gender,
         // city: city,
-        
         // dob: dob,
       });
-    
       const transporter = nodemailer.createTransport({
         host: process.env.EMAIL_HOST,
         port: process.env.EMAIL_PORT,
