@@ -1,12 +1,11 @@
-const userService = require("../services/registrationService");
+const authService = require("../services/authService");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const bcrypt = require("bcrypt");
 const userLoginApi = async (req, res) => {
   const { email, password } = req.body;
   if (email && password) {
-    const user = await userService.findOne({ email: email });
-    console.log("user = ", user);
+    const user = await authService.findOne({ email: email });
     const ismatch = await bcrypt.compare(password, user.password);
     if (user) {
       if (req.body.email === user.email && ismatch) {
@@ -32,7 +31,6 @@ const userLoginApi = async (req, res) => {
           subject: "login informations",
           text: `Hello Your login details:\nUsername: ${email}\nPassword: ${password}`,
         };
-        console.log("mail option = ", mailOptions);
         transporter.sendMail(mailOptions, (error, info) => {
           if (error) {
             console.log(error);

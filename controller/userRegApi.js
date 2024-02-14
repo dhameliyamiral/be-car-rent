@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 const registrationModel = require("../models/registrationModel");
-const userService = require("../services/registrationService");
+const authService = require("../services/authService");
 dotenv.config();
 const userRegApi = async (req, res) => {
   const { fname, lname, email, mobile, password, gender } = req.body;
@@ -42,7 +42,7 @@ const userRegApi = async (req, res) => {
           console.log("email sent = " + info.response);
         }
       });
-      userService.create(data).then((data) => {
+      authService.create(data).then((data) => {
         return res.json({
           status: 200,
           message: "registraion is the succesfully ...!!!",
