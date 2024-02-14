@@ -6,8 +6,8 @@ const registrationModel = require("../models/registrationModel");
 const userService = require("../services/registrationService");
 dotenv.config();
 const userRegApi = async (req, res) => {
-  const { fname,lname, email, mobile,password,gender } = req.body;
-  if (fname&&lname&&email&& mobile&&password&&gender) {
+  const { fname, lname, email, mobile, password, gender } = req.body;
+  if (fname && lname && email && mobile && password && gender) {
     try {
       const salt = await bcrypt.genSalt(10);
       const hashPassword = await bcrypt.hash(password, salt);
@@ -17,9 +17,7 @@ const userRegApi = async (req, res) => {
         email: email,
         mobile: mobile,
         password: hashPassword,
-        gender:gender,
-        // city: city,
-        // dob: dob,
+        gender: gender,
       });
       const transporter = nodemailer.createTransport({
         host: process.env.EMAIL_HOST,
@@ -47,7 +45,7 @@ const userRegApi = async (req, res) => {
       userService.create(data).then((data) => {
         return res.json({
           status: 200,
-          message: "registraion succesfully...!!!",
+          message: "registraion is the succesfully ...!!!",
           data: data,
         });
       });
