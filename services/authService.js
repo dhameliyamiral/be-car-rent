@@ -1,4 +1,5 @@
 const registrationModel = require("../models/registrationModel");
+
 const authService = [];
 authService.create = async(param)=>{
     const data = await registrationModel.create(param).then(e=>e).catch(e=>e);

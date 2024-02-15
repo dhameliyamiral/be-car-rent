@@ -54,7 +54,7 @@ const userRegApi = async (req, res) => {
       console.log(error);
       return res.json({
         status: 500,
-        message: "server error is ..",
+        message: "intrnal server error",
       });
     }
   }
