@@ -7,7 +7,7 @@ const userLoginApi = async (req, res) => {
   if (email && password) {
     const user = await authService.findOne({ email: email });
     if (user) {
-      const ismatch = bcrypt.compare(password, user.password);
+      const ismatch = bcrypt.compareSync(password, user.password);
       if (ismatch) {
         const token = jwt.sign(
           {
