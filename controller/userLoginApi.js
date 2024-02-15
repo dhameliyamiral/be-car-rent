@@ -6,10 +6,11 @@ const userLoginApi = async (req, res) => {
   const { email, password } = req.body;
   if (email && password) {
     const user = await authService.findOne({ email: email });
-    const ismatch = await bcrypt.compare(password, user.password);
+    
     if (user) {
-      if (req.body.email === user.email && ismatch) {
-        const token = await jwt.sign(
+      const ismatch = await bcrypt.compare(password, user.password);
+      if (ismatch) {
+        const token = jwt.sign(
           {
             id: user.id,
             email: user.email,
@@ -39,16 +40,22 @@ const userLoginApi = async (req, res) => {
           }
         });
         return res.json({
-          status: "success",
+          status: 200,
           message: "login success..!",
           token,
         });
       } else {
         return res.json({
-          status: "failed",
+          status: 400,
           message: "password and email are not same..!!",
         });
       }
+    }
+    else{
+      return res.json({
+        status: 400,
+        message: "password and email are not same..!!",
+      });
     }
   } else {
     res.json({

@@ -9,8 +9,9 @@ const userRegApi = async (req, res) => {
   const { fname, lname, email, mobile, password, gender } = req.body;
   if (fname && lname && email && mobile && password && gender) {
     try {
-      const salt = await bcrypt.genSalt(10);
-      const hashPassword = await bcrypt.hash(password, salt);
+      // const salt = await bcrypt.genSalt(10);
+      // const hashPassword = await bcrypt.hash(password, salt);
+      const hashPassword = await bcrypt.hash(password, 10);
       const data = new registrationModel({
         fname: fname,
         lname: lname,

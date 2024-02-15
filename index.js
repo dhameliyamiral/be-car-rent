@@ -2,9 +2,12 @@ const { mongoose } = require('mongoose');
 require("dotenv").config();
 const router = require("./routes/userRoutes")
 const express = require('express')
+const cors = require('cors')
+
 const app = express()
 const port = process.env.port
 const db_url = process.env.db_url;
+app.use(cors({origin: '*'}));
 console.log("db url",db_url);
 // const db_name = process.env.db_name;
 // console.log("db name = ",db_name);

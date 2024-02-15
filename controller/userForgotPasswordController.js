@@ -1,7 +1,8 @@
 const authService = require("../services/authService");
 const nodemailer = require("nodemailer");
+const bcrypt = require("bcrypt");
 const forgotpasswordSchema = require("../models/forgotPasswordModel");
-const registrationModel =  require("../models/registrationModel")
+const registrationModel = require("../models/registrationModel");
 const userForgotPasswordEmail = async (req, res) => {
   const { email } = req.body;
   if (email) {
@@ -61,20 +62,25 @@ const userForgotPasswordOtp = async (req, res) => {
   }
   res.json({ message: "otp verification successfully" });
 };
-const updatePassword = async(req,res)=>{
-    const {email,password,confirmpassword} = req.body;
-    const user = await forgotpasswordSchema.findOne({email});
-    if(!user){
-        return res.json({message:"user not found"})
-    }
-    // user.password=password;
-    const updated = await registrationModel.updateOne({
-        password:password
-    });
-    console.log("updated = ",updated);
-    user.otp = null;
-    user.otpExpiration = null;
-    await user.save();
-    res.status(200).json({ message: "Password updated successfully" });
-}
-module.exports = { userForgotPasswordEmail, userForgotPasswordOtp ,updatePassword};
+const updatePassword = async (req, res) => {
+  const { email, newpassword, confirmpassword } = req.body;
+  const user = await forgotpasswordSchema.findOne({ email });
+  console.log(user);
+  if (!user) {
+    return res.json({ message: "user not found" });
+  }
+  const aa = user.email
+  console.log("aa ===",aa);
+  const hashedPassword = await bcrypt.hash(newpassword, 10);
+  const update = await registrationModel.updateOne({email:user.email},{$set:{password:hashedPassword}})
+  console.log("update = ",update);
+  user.otp = null;
+  user.otpExpiration = null;
+  res.status(200).json({ message: "Password updated successfully" });
+};
+
+module.exports = {
+  userForgotPasswordEmail,
+  userForgotPasswordOtp,
+  updatePassword,
+};
