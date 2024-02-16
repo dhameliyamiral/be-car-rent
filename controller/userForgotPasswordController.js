@@ -1,7 +1,7 @@
 const authService = require("../services/authService");
 const nodemailer = require("nodemailer");
 const bcrypt = require("bcrypt");
-const  forgotpasswordSchema  = require("../models/forgotPasswordModel");
+const forgotpasswordSchema = require("../models/forgotPasswordModel");
 const registrationModel = require("../models/registrationModel");
 const userForgotPasswordEmail = async (req, res) => {
   const { email } = req.body;
@@ -57,6 +57,7 @@ const userForgotPasswordEmail = async (req, res) => {
 const userForgotPasswordOtp = async (req, res) => {
   const { email, otp } = req.body;
   const user = await forgotpasswordSchema.findOne({ email, otp });
+  console.log("user = ",user);
   if (!user) {
     return res.json({ message: "invalid otp ..!!" });
   }
@@ -78,8 +79,9 @@ const updatePassword = async (req, res) => {
       { email: user.email },
       { $set: { password: hashedPassword } }
     );
-    user.otp = null; 
-    user.otpExpiration = null;
+      await forgotpasswordSchema.updateOne({email},{otp:null,otpExpiration:null})
+
+ 
     res.status(200).json({ message: "Password updated successfully" });
   } catch (error) {
     return res.json({ status: 500, message: "internal server error" });
@@ -90,25 +92,3 @@ module.exports = {
   userForgotPasswordOtp,
   updatePassword,
 };
-
-//   if (username && password) {
-//     const user = await adminLoginModel.findOne({username ,password});
-//     console.log("user == ",username);
-//     if (user) {
-//       return res.json({
-//         status: 200,
-//         message: "login success..!",
-//       });
-//     }
-//     else{
-//         return res.json({
-//             status:200,
-//             message:"password and email are not same..!!"
-//         })
-//     }
-//   } else {
-//     return res.json({
-//       status: 200,
-//       message: "all field are required..!!",
-//     });
-//   }
