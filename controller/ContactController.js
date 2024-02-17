@@ -48,7 +48,6 @@ const ContactController = async (req, res) => {
   } catch (error) {
     return res.json({ status: 500, message: "intrnal server error" });
   }
-
 };
 
 module.exports = { ContactController };
