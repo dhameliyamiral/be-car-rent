@@ -1,16 +1,34 @@
 const adminLoginModel = require("../models/adminLoginModel");
-const adminLogin= async (req, res) => {
+const jwt = require("jsonwebtoken");
+const adminLogin = async (req, res) => {
   const { username, password } = req.body;
-  try {
-    const admin = await adminLoginModel.findOne({ username ,password });
-    if (admin) {
-      return res.json({  status: 200,message: "login sucesfully..!!" });
+  if (username && password) {
+    try {
+      const admin = await adminLoginModel.findOne({ username, password });
+      if (admin) {
+        const token = jwt.sign(
+          {
+            id: admin.id,
+            email: admin.email,
+          },
+          process.env.jwt_secret_key
+        );
+        return res.json({
+          status: 200,
+          message: "login sucesfully!!",
+          token: token,
+        });
+      } else {
+        return res.json({
+          status: 400,
+          message: "invalide email and password",
+        });
+      }
+    } catch (error) {
+      return res.json({ status: 500, message: "internal server error" });
     }
-    else{
-        return res.json({status: 400,message:"invalide email and password"})
-    }
-  } catch (error) {
-    return res.json({status:500,message:"internal server error"}) 
+  } else {
+    return res.json({ status: 400, message: "all field are required" });
   }
 };
-module.exports = {adminLogin };
+module.exports = { adminLogin };

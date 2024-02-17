@@ -6,6 +6,7 @@ const registrationModel = require("../models/registrationModel");
 const userForgotPasswordEmail = async (req, res) => {
   const { email } = req.body;
   try {
+  
     if (email) {
       const user = await authService.findOne({ email: email });
       if (req.body.email === user.email) {
@@ -50,7 +51,8 @@ const userForgotPasswordEmail = async (req, res) => {
     } else {
       res.json({ status: 400, message: "please enter the email !!" });
     }
-  } catch (error) {
+  } 
+  catch (error) {
     return res.json({ status: 500, message: "internal server error" });
   }
 };
