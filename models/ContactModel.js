@@ -8,6 +8,10 @@ const ContactSchema = new mongoose.Schema({
         type:String,
         required:true
     },
+    mobile_number:{
+        type:String,
+        required:true
+    },
     subject:{
         type:String,
         required:true

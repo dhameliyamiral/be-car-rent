@@ -1,7 +1,6 @@
 const authService = require("../services/authService");
 const nodemailer = require("nodemailer");
 const bcrypt = require("bcrypt");
-
 const userModel = require("../models/userModel");
 const userForgotPasswordEmail = async (req, res) => {
   const { email } = req.body;
@@ -71,7 +70,6 @@ const userForgotPasswordOtp = async (req, res) => {
     return res.json({ status: 500,
       message: "intrnal server error",})
   }
-
 };
 const updatePassword = async (req, res) => {
   const { email, newpassword } = req.body;
