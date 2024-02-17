@@ -2,17 +2,15 @@ const dotenv = require("dotenv");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
-const registrationModel = require("../models/registrationModel");
+const userModel = require("../models/userModel");
 const authService = require("../services/authService");
 dotenv.config();
 const userRegApi = async (req, res) => {
   const { fname, lname, email, mobile, password, gender } = req.body;
   if (fname && lname && email && mobile && password && gender) {
     try {
-      // const salt = await bcrypt.genSalt(10);
-      // const hashPassword = await bcrypt.hash(password, salt);
       const hashPassword = await bcrypt.hash(password, 10);
-      const data = new registrationModel({
+      const data = new userModel({
         fname: fname,
         lname: lname,
         email: email,
