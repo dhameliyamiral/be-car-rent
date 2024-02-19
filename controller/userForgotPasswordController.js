@@ -7,6 +7,7 @@ const userForgotPasswordEmail = async (req, res) => {
   try {
     if (email) {
       const user = await authService.findOne({ email: email });
+      console.log("user = ",user);
       if (req.body.email === user.email) {
         const transporter = nodemailer.createTransport({
           host: process.env.EMAIL_HOST,
@@ -52,7 +53,8 @@ const userForgotPasswordEmail = async (req, res) => {
 const userForgotPasswordOtp = async (req, res) => {
   const { email, otp } = req.body;
   try {
-    const user = await userModel.findOne({ email, otp });
+
+    const user = await userModel.findOne({ email:email, otp:otp });
     console.log("user = ", user);
     if (!user) {
       return res.json({ message: "invalid otp ..!!" });
@@ -66,7 +68,8 @@ const userForgotPasswordOtp = async (req, res) => {
       return res.json({ message: "otp expired" });
     }
     return res.json({ message: "otp verification successfully" });
-  } catch (error) {
+  } 
+  catch (error) {
     return res.json({ status: 500,
       message: "intrnal server error",})
   }

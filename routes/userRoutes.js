@@ -7,6 +7,7 @@ const {adminLogin} = require('../controller/adminLogin')
 const {ContactController} = require("../controller/ContactController")
 const {ProductDeleteController}=require("../controller/ProductDeleteController")
 const {ProductUpdateController}=require("../controller/ProductUpdateController")
+const {bookingController} = require('../controller/bookingController')
 const {upload}=require("../services/carUploadService")
 const {userForgotPasswordEmail,userForgotPasswordOtp,updatePassword} = require('../controller/userForgotPasswordController')
 router.post('/registrations',userRegApi);
@@ -19,4 +20,5 @@ router.post('/contact',ContactController)
 router.post('/caradd',upload.single("Image"),ProductInsertController)
 router.post('/cardelete',ProductDeleteController)
 router.post('/carupdate',ProductUpdateController)
+router.post('/bookingcars',bookingController)
 module.exports = router;
