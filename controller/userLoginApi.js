@@ -47,7 +47,7 @@ const userLoginApi = async (req, res) => {
         } else {
           return res.json({
             status: 400,
-            message: "Somthing went wrong,please try later...!!",
+            message: "Somthing went wrong, Please try later...!!",
           });
         }
       }
