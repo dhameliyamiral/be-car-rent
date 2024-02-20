@@ -41,20 +41,20 @@ const userLoginApi = async (req, res) => {
           });
           return res.json({
             status: 200,
-            message: "login success..!",
+            message: "login successfully..!!",
             token,
           });
         } else {
           return res.json({
             status: 400,
-            message: "password and email are not same..!!",
+            message: "Somthing went wrong,please try later...!!",
           });
         }
       }
       else{
         return res.json({
           status: 400,
-          message: "password and email are not same..!!",
+          message: "Somthing went wrong,please try later...!!",
         });
       }
     } else {

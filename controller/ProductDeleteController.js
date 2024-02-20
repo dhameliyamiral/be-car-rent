@@ -14,7 +14,7 @@ const ProductDeleteController = async(req,res)=>{
         if(!result){
             res.json({ message: "documnet is not found" });
         }
-        res.json({ message: "documnet is soft deleted..!!" });
+        res.json({ message: "Documnet Deleted Successfully..!!" });
     } catch (error) {
         return res.json({ status: 500,
             message: "intrnal server error",})

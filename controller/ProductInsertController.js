@@ -42,7 +42,7 @@ const ProductInsertController = async (req, res) => {
       carUploadService.create(data).then((data) => {
         return res.json({
           status: 200,
-          message: "insert data succesfully..!!",
+          message: "Insert Data Succesfully..!!",
           data: data,
         });
       });

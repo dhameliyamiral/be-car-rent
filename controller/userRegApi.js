@@ -31,7 +31,7 @@ const userRegApi = async (req, res) => {
         from: process.env.EMAIL_FROM,
         to: email,
         subject: "registration",
-        text: `registration succesfuly`,
+        text: `Registration succesfully`,
       };
       console.log("mail option = ", mailOptions);
       transporter.sendMail(mailOptions, (error, info) => {
@@ -44,7 +44,7 @@ const userRegApi = async (req, res) => {
       authService.create(data).then((data) => {
         return res.json({
           status: 200,
-          message: "registraion is the succesfully ...!!!",
+          message: "Registraion succesfully ...!!!",
           data: data,
         });
       });

@@ -7,7 +7,7 @@ const userForgotPasswordEmail = async (req, res) => {
   try {
     if (email) {
       const user = await authService.findOne({ email: email });
-      console.log("user = ",user);
+      console.log("user = ", user);
       if (req.body.email === user.email) {
         const transporter = nodemailer.createTransport({
           host: process.env.EMAIL_HOST,
@@ -41,7 +41,7 @@ const userForgotPasswordEmail = async (req, res) => {
         });
         res
           .status(200)
-          .json({ message: "Password forgot OTP sent successfully" });
+          .json({ message: "Password Forgot OTP Sent Successfully" });
       }
     } else {
       res.json({ status: 400, message: "please enter the email !!" });
@@ -53,25 +53,19 @@ const userForgotPasswordEmail = async (req, res) => {
 const userForgotPasswordOtp = async (req, res) => {
   const { email, otp } = req.body;
   try {
-
-    const user = await userModel.findOne({ email:email, otp:otp });
+    const user = await userModel.findOne({ email: email, otp: otp });
     console.log("user = ", user);
     if (!user) {
       return res.json({ message: "invalid otp ..!!" });
     }
     const now = new Date();
     if (now > user.otpExpiration) {
-      await userModel.updateOne(
-        { email },
-        { otp: null, otpExpiration: null }
-      );
+      await userModel.updateOne({ email }, { otp: null, otpExpiration: null });
       return res.json({ message: "otp expired" });
     }
-    return res.json({ message: "otp verification successfully" });
-  } 
-  catch (error) {
-    return res.json({ status: 500,
-      message: "intrnal server error",})
+    return res.json({ message: "Otp Verification Successfully" });
+  } catch (error) {
+    return res.json({ status: 500, message: "intrnal server error" });
   }
 };
 const updatePassword = async (req, res) => {
@@ -86,11 +80,8 @@ const updatePassword = async (req, res) => {
       { email: user.email },
       { $set: { password: hashedPassword } }
     );
-    await userModel.updateOne(
-      { email },
-      { otp: null, otpExpiration: null }
-    );
-    res.status(200).json({ message: "Password updated successfully" });
+    await userModel.updateOne({ email }, { otp: null, otpExpiration: null });
+    res.status(200).json({ message: "Password Updated Successfully" });
   } catch (error) {
     return res.json({ status: 500, message: "internal server error" });
   }

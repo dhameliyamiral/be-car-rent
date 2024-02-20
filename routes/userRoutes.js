@@ -3,6 +3,7 @@ const router = express.Router();
 const {userRegApi} = require('../controller/userRegApi');
 const {ProductInsertController} =require("../controller/ProductInsertController")
 const {userLoginApi} = require('../controller/userLoginApi')
+const {productDisplayController} = require("../controller/productDisplayController")
 const {adminLogin} = require('../controller/adminLogin')
 const {ContactController} = require("../controller/ContactController")
 const {ProductDeleteController}=require("../controller/ProductDeleteController")
@@ -18,6 +19,7 @@ router.post('/updatePassword',updatePassword)
 router.post('/adminLogin',adminLogin);
 router.post('/contact',ContactController)
 router.post('/caradd',upload.single("Image"),ProductInsertController)
+router.post('/cardisplay',productDisplayController)
 router.post('/cardelete',ProductDeleteController)
 router.post('/carupdate',ProductUpdateController)
 router.post('/bookingcars',bookingController)

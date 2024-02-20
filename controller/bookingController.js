@@ -22,11 +22,10 @@ const bookingController = async (req, res) => {
         return_time,
       });
       await data.save();
-      res.status(201).json({ message: 'Booking created successfully', data});
+      res.status(201).json({ message: 'Booking Created Successfully..!!', data});
   } catch (error) {
     return res.json({status:500,message:"internal server error"})
   }
-
 };
 module.exports = { bookingController };
 // https://chat.openai.com/share/ce8c028f-2bac-4191-afae-b3da1945bfe0

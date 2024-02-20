@@ -15,7 +15,7 @@ const adminLogin = async (req, res) => {
         );
         return res.json({
           status: 200,
-          message: "login sucesfully!!",
+          message: "Login Successfully...!!",
           token: token,
         });
       } else {

@@ -37,7 +37,7 @@ const ContactController = async (req, res) => {
       await data.save();
       return res.json({
         status: 200,
-        message: "Thank you for your message. It has been sent.",
+        message: "Thank you for your message. It has been sent...!!",
       });
     } else {
       return res.json({

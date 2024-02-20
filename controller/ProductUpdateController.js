@@ -33,6 +33,6 @@ const ProductUpdateController = async (req,res)=>{
             },
         }
       );
-      res.json({status:200,message:"update product success..!"})
+      res.json({status:200,message:"Update Product Successfully..!"})
 }
 module.exports = { ProductUpdateController }
