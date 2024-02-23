@@ -1,14 +1,13 @@
 const { ContactModel } = require("../models/ContactModel");
 const nodemailer = require("nodemailer");
 const ContactController = async (req, res) => {
-  const { name, email, subject, message, mobile_number } = req.body;
+  const { name, email, message, mobile_number } = req.body;
   try {
-    if (name && email && subject && message && mobile_number) {
+    if (name && email && message && mobile_number) {
       const data = new ContactModel({
         name: name,
         email: email,
         mobile_number: mobile_number,
-        subject: subject,
         message: message,
       });
       const transporter = nodemailer.createTransport({

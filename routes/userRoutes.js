@@ -3,6 +3,8 @@ const router = express.Router();
 const {userRegApi} = require('../controller/userRegApi');
 const {ProductInsertController} =require("../controller/ProductInsertController")
 const {userLoginApi} = require('../controller/userLoginApi')
+const {viewBooking} = require('../controller/viewBooking')
+const {bookingCancel} =require('../controller/bookingCancel')
 const {productDisplayController} = require("../controller/productDisplayController")
 const {adminLogin} = require('../controller/adminLogin')
 const {ContactController} = require("../controller/ContactController")
@@ -13,6 +15,8 @@ const {upload}=require("../services/carUploadService")
 const {userForgotPasswordEmail,userForgotPasswordOtp,updatePassword} = require('../controller/userForgotPasswordController')
 router.post('/registrations',userRegApi);
 router.post('/login',userLoginApi)
+router.post('/bookingcancel',bookingCancel)
+router.post('/viewBooking',viewBooking)
 router.post('/ForgotPasswordEmail',userForgotPasswordEmail)
 router.post('/ForgotPasswordOtp',userForgotPasswordOtp)
 router.post('/updatePassword',updatePassword)
@@ -23,4 +27,5 @@ router.post('/cardisplay',productDisplayController)
 router.post('/cardelete',ProductDeleteController)
 router.post('/carupdate',ProductUpdateController)
 router.post('/bookingcars',bookingController)
+
 module.exports = router;

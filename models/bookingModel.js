@@ -42,6 +42,10 @@ const bookingSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  deletedAt: {
+    type: Date,
+    default: null,
+  }
 });
 const bookingModel = mongoose.model("Booking", bookingSchema);
 module.exports = bookingModel;

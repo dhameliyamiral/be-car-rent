@@ -21,6 +21,7 @@ const userForgotPasswordEmail = async (req, res) => {
         const generateOTP = () =>
           Math.floor(1000 + Math.random() * 9000).toString();
         const otp = generateOTP();
+        console.log("otp = = =",otp);
         const otpExpiration = new Date(Date.now() + 60 * 1000);
         await userModel.findOneAndUpdate(
           { _id: user.id },

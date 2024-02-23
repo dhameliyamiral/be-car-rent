@@ -7,8 +7,6 @@ const app = express();
 const port = process.env.port;
 const db_url = process.env.db_url;
 app.use(cors({ origin: "*" }));
-
-// console.log("db url", db_url);
 const connectdb = async (db_url) => {
   const DB_OPTION = {
     dbname: process.env.db_name,
