@@ -23,7 +23,7 @@ const ContactController = async (req, res) => {
         from: email,
         to: process.env.EMAIL_FROM,
         subject: `Contact Inquiry:${name}`,
-        text: `A new message has been received:\n\nSender's Email: ${email}\n subject: ${subject}\n\nMessage:\n${message}`,
+        text: `A new message has been received:\n\nSender's Email: ${email}\n\nMessage:\n${message}`,
       };
       console.log("mail options = ", mailOptions);
       transporter.sendMail(mailOptions, (error, info) => {
