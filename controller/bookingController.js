@@ -1,9 +1,9 @@
 const bookingModel = require("../models/bookingModel");
+
 const bookingService = require("../services/bookingService");
 const bookingController = async (req, res) => {
   const {
     car_id,
-    user_id,
     pickup_Location,
     dropoff_Location,
     pickup_date,
@@ -12,6 +12,7 @@ const bookingController = async (req, res) => {
     return_time,
   } = req.body;
   try {
+    const { id: user_id } = req.userData;
     const data = new bookingModel({
       car_id,
       user_id,

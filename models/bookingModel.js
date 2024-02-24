@@ -40,7 +40,7 @@ const bookingSchema = new mongoose.Schema({
   },
   last_update_date: {
     type: Date,
-    default: Date.now,
+    default:null,
   },
   deletedAt: {
     type: Date,

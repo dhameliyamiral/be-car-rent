@@ -1,5 +1,5 @@
 const ProductInsertModel = require("../models/ProductInsertModel");
-const carUploadService = require("../services/carUploadService");
+const {carUploadService} = require("../services/carUploadService");
 const ProductUpdateController = async (req,res)=>{
     const {
         plate_number,

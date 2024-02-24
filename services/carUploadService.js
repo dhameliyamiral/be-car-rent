@@ -1,3 +1,4 @@
+const ProductInsertModel = require("../models/ProductInsertModel")
 const multer =require("multer");
 const carUploadService=[];
 const storage = multer.diskStorage({

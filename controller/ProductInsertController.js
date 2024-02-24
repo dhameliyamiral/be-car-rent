@@ -1,5 +1,5 @@
 const ProductInsertModel = require("../models/ProductInsertModel");
-const carUploadService = require("../services/carUploadService");
+const {carUploadService} = require("../services/carUploadService");
 const ProductInsertController = async (req, res) => {
   const {
     plate_number,
@@ -25,7 +25,7 @@ const ProductInsertController = async (req, res) => {
     fuel &&
     brand
   ) {
-    try {
+    // try {
       const data = new ProductInsertModel({
         plate_number: plate_number,
         Image: req.file.filename,
@@ -46,9 +46,9 @@ const ProductInsertController = async (req, res) => {
           data: data,
         });
       });
-    } catch (error) {
-      return res.json({ status: 500, message: "intrnal server error" });
-    }
+    // } catch (error) {
+    //   return res.json({ status: 500, message: "intrnal server error" });
+    // }
   } else {
     return res.json({ status: 200, message: "all field are required" });
   }

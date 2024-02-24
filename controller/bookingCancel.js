@@ -1,19 +1,17 @@
 const bookingModel = require("../models/bookingModel");
 const bookingCancel = async (req, res) => {
-  const { car_id, user_id } = req.body;
+  const { car_id } = req.body;
   try {
+    const {id:user_id} = req.userData;
     date = new Date();
     const Booking = await bookingModel.findOne({
       car_id: car_id,
       user_id: user_id,
     });
-    const result = await bookingModel.findOneAndUpdate(
+    await bookingModel.findOneAndUpdate(
       { _id: Booking.id },
       { $set: { deletedAt: date } }
     );
-    if (!result) {
-      res.json({ message: "documnet is not found" });
-    }
     res.json({ message: "Documnet Deleted Successfully..!!" });
     // const find = await bookingModel.find();
     // console.log("find = ",find);
