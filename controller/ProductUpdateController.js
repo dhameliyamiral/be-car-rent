@@ -16,6 +16,7 @@ const ProductUpdateController = async (req,res)=>{
       const product = await carUploadService.findOne({
         plate_number:plate_number,
       });
+
       console.log("product == ",product);
       await ProductInsertModel.findByIdAndUpdate(
         {_id:product.id},
@@ -36,3 +37,4 @@ const ProductUpdateController = async (req,res)=>{
       res.json({status:200,message:"Update Product Successfully..!"})
 }
 module.exports = { ProductUpdateController }
+
