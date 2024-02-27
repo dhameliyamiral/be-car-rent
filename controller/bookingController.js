@@ -1,5 +1,4 @@
 const bookingModel = require("../models/bookingModel");
-
 const bookingService = require("../services/bookingService");
 const bookingController = async (req, res) => {
   const {

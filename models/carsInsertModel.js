@@ -28,7 +28,7 @@ const ProductInsertSchema = new mongooes.Schema({
     type: String,
     required: true,
   },
-  transmission: {
+  Air_Conditioning_Availability: {
     type: String,
     required: true,
   },
@@ -49,5 +49,5 @@ const ProductInsertSchema = new mongooes.Schema({
     default: null,
   },
 });
-const ProductInsertModel = mongooes.model("carsDetails", ProductInsertSchema);
-module.exports = ProductInsertModel;
+const carsInsertModel = mongooes.model("carsDetails", ProductInsertSchema);
+module.exports = carsInsertModel;
