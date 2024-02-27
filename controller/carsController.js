@@ -34,7 +34,7 @@ const carsInsertController = async (req, res) => {
         price: price,
         description: description,
         mileage: mileage,
-        Air_Conditioning_Availability:Air_Conditioning_Availability,
+        Air_Conditioning_Availability: Air_Conditioning_Availability,
         seats: seats,
         luggage: luggage,
         fuel: fuel,
@@ -115,6 +115,7 @@ const carsUpdateController = async (req, res) => {
     return res.json({ status: 500, message: "intrnal server error" });
   }
 };
+
 const carsDisplayController = async (req, res) => {
   try {
     const data = await carsInsertModel.find({ deletedAt: null });
