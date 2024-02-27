@@ -41,7 +41,7 @@ router.post(
 );
 router.get("/cardisplay", carsDisplayController);
 router.post("/cardelete", adminAuthMiddlewares, carsDeleteController);
-router.post("/carupdate", adminAuthMiddlewares, carsUpdateController);
+router.post("/carupdate", adminAuthMiddlewares, upload.single("Image"),carsUpdateController);
 router.post("/bookingcars", userAuthMiddlewares, bookinginsertApi);
 router.post("/bookingdisplay", adminAuthMiddlewares, bookingDisplay);
 router.post("/bookingcancel", userAuthMiddlewares, bookingCancel);

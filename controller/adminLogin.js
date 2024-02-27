@@ -25,10 +25,10 @@ const adminLogin = async (req, res) => {
         });
       }
     } catch (error) {
-      return res.json({ status: 500, message: "internal server error" });
+      return res.json({ status: 500, message: "internal server error"});
     }
   } else {
-    return res.json({ status: 400, message: "all field are required" });
+    return res.json({ status: 400, message: "all field are required"});
   }
 };
 module.exports = { adminLogin };

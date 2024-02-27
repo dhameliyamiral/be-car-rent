@@ -53,7 +53,6 @@ const carsInsertController = async (req, res) => {
     return res.json({ status: 200, message: "all field are required" });
   }
 };
-
 const carsDeleteController = async (req, res) => {
   try {
     const { plate_number } = req.body;
@@ -89,17 +88,27 @@ const carsUpdateController = async (req, res) => {
     brand,
   } = req.body;
   try {
+    const newcarPic = req.file.filename;
     const product = await carUploadService.findOne({
       plate_number: plate_number,
     });
+    const oldcarPic = product.Image;
+    const fs = require("fs");
+    const filePath = `E:/NodeJs_Prc_FOLDER/git project/be-car-rent/uploads/${oldcarPic}`;
+    // try {
+    fs.unlinkSync(filePath);
+    //   console.log(`File ${filePath} deleted successfully.`);
+    // } catch (err) {
+    //   console.error(`Error deleting file: ${err}`);
+    // }
 
-    console.log("product == ", product);
     await carsInsertModel.findByIdAndUpdate(
       { _id: product.id },
       {
         $set: {
           model,
           price,
+          Image: newcarPic,
           description,
           mileage,
           Air_Conditioning_Availability,
@@ -115,7 +124,6 @@ const carsUpdateController = async (req, res) => {
     return res.json({ status: 500, message: "intrnal server error" });
   }
 };
-
 const carsDisplayController = async (req, res) => {
   try {
     const data = await carsInsertModel.find({ deletedAt: null });

@@ -84,5 +84,5 @@ const bookingCancel = async (req, res) => {
     return res.json({ status: 500, message: "intrnal server error" });
   }
 };
-module.exports = { bookinginsertApi, bookingUpdate,bookingCancel};
+module.exports = {bookinginsertApi, bookingUpdate,bookingCancel};
 // https://chat.openai.com/share/ce8c028f-2bac-4191-afae-b3da1945bfe0
