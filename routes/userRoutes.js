@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const {initiate} = require("../controller/payment")
+const {initiate,capture_payment} = require("../controller/payment");
 // const {createOrder}=require("../controller/createOrder")
 const { contactDisplay } = require("../controller/contactDisplay");
 const { userAuthMiddlewares } = require("../middlewares/userAuthMiddlewares");
@@ -11,6 +11,7 @@ const {
   carsDeleteController,
   carsUpdateController,
   carsDisplayController,
+  addcarscart
 } = require("../controller/carsController");
 const { adminLogin } = require("../controller/adminLogin");
 const { ContactController } = require("../controller/ContactController");
@@ -35,12 +36,14 @@ router.post("/ForgotPasswordOtp", userForgotPasswordOtp);
 router.post("/updatePassword", updatePassword);
 router.post("/adminLogin", adminLogin);
 router.post("/contact", ContactController);
+router.post("/capture_payment",capture_payment)
 router.post(
   "/caradd",
   adminAuthMiddlewares,
   upload.single("Image"),
   carsInsertController
 );
+router.post("/addcarscart",userAuthMiddlewares,addcarscart);
 router.get("/cardisplay", carsDisplayController);
 router.post("/cardelete", adminAuthMiddlewares, carsDeleteController);
 router.post("/carupdate", adminAuthMiddlewares, upload.single("Image"),carsUpdateController);

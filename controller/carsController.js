@@ -1,4 +1,5 @@
 const carsInsertModel = require("../models/carsInsertModel");
+const CartModel = require("../models/CartModel")
 const { carUploadService } = require("../services/carUploadService");
 const carsInsertController = async (req, res) => {
   const {
@@ -95,12 +96,12 @@ const carsUpdateController = async (req, res) => {
     const oldcarPic = product.Image;
     const fs = require("fs");
     const filePath = `E:/NodeJs_Prc_FOLDER/git project/be-car-rent/uploads/${oldcarPic}`;
-    // try {
+    try {
     fs.unlinkSync(filePath);
-    //   console.log(`File ${filePath} deleted successfully.`);
-    // } catch (err) {
-    //   console.error(`Error deleting file: ${err}`);
-    // }
+      console.log(`File ${filePath} deleted successfully.`);
+    } catch (err) {
+      console.error(`Error deleting file: ${err}`);
+    }
 
     await carsInsertModel.findByIdAndUpdate(
       { _id: product.id },
@@ -133,9 +134,28 @@ const carsDisplayController = async (req, res) => {
     return res.json({ status: 500, message: "intrenal server error" });
   }
 };
+const addcarscart = async(req,res)=>{
+  const {car_id,quantity} = req.body;
+  const { id: user_id } = req.userData;
+  console.log("user_id = ",user_id);
+  let cart = await CartModel.findOne({user_id})
+  if(!cart){
+     cart= new CartModel({user_id,items:[]});
+  }
+  const existingItem = cart.items.find(item=>item.car_id===car_id);
+  if(existingItem)
+  {
+    existingItem.quantity += quantity;
+  }else{
+    cart.items.push({car_id,quantity});
+  }
+  await cart.save();
+  res.json({ success: true, message: 'Car added to cart successfully.' });
+}
 module.exports = {
   carsInsertController,
   carsDeleteController,
   carsUpdateController,
   carsDisplayController,
+  addcarscart
 };
