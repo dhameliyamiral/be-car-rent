@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const {initiate} = require("../controller/payment")
 // const {createOrder}=require("../controller/createOrder")
 const { contactDisplay } = require("../controller/contactDisplay");
 const { userAuthMiddlewares } = require("../middlewares/userAuthMiddlewares");
@@ -25,6 +26,7 @@ const {
   userForgotPasswordOtp,
   updatePassword,
 } = require("../controller/userForgotPasswordController");
+router.post("/payment",initiate)
 router.get("/contactDisplay", contactDisplay);
 router.post("/registrations", userRegApi);
 router.post("/login", userLoginApi);

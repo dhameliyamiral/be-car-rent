@@ -1,7 +1,6 @@
 const bookingModel = require("../models/bookingModel");
 const bookingService = require("../services/bookingService");
 const moment = require("moment");
-
 const bookinginsertApi = async (req, res) => {
   const {
     car_id,
@@ -31,7 +30,6 @@ const bookinginsertApi = async (req, res) => {
   if (!isValidTimeFormat(pickup_time) || !isValidTimeFormat(return_time)) {
     return res.json({ message: "Time should be in the format HH:MM AM/PM" });
   }
-
   try {
     if (
       car_id &&
@@ -76,14 +74,32 @@ const bookingUpdate = async (req, res) => {
     pickup_time,
     return_time,
   } = req.body;
-
+  const dateFormat = "YYYY-MM-DD";
+  const currentDate = moment().startOf("day");
+  console.log("current date = ", currentDate);
+  if (
+    moment(pickup_date, dateFormat) < currentDate ||
+    moment(return_date, dateFormat) < currentDate
+  ) {
+    return res.json({ message: "Dates should be in the future" });
+  }
+  if (moment(return_date, dateFormat) <= moment(pickup_date, dateFormat)) {
+    return res.json({ message: "Return date should be after pickup date" });
+  }
+  // const isValidTimeFormat = (timeString) => {
+  //   const regex = /^(0?[1-9]|1[0-2]):[0-5][0-9] (AM|PM)$/i;
+  //   return regex.test(timeString);
+  // };
+  // if (!isValidTimeFormat(pickup_time) || !isValidTimeFormat(return_time)) {
+  //   return res.json({ message: "Time should be in the format HH:MM AM/PM" });
+  // }
   const { id: user_id } = req.userData;
   console.log("user id = ", user_id);
   const user = await bookingModel.findOne({
     user_id: user_id,
   });
   console.log("user_id", user);
-  await bookingModel.findByIdAndUpdate(
+  const data = await bookingModel.findByIdAndUpdate(
     {
       _id: user._id,
     },
@@ -99,7 +115,7 @@ const bookingUpdate = async (req, res) => {
       },
     }
   );
-  res.json({ status: 200, message: "Update booking Successfully...!" });
+  res.json({ status: 200, message: "Update booking Successfully...!" ,data});
 };
 const bookingCancel = async (req, res) => {
   const { car_id } = req.body;

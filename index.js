@@ -4,7 +4,6 @@ const router = require("./routes/userRoutes");
 const express = require("express");
 const cors = require("cors");
 const app = express();
-
 const port = process.env.port;
 const db_url = process.env.db_url;
 
