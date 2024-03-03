@@ -11,7 +11,7 @@ const {
   carsDeleteController,
   carsUpdateController,
   carsDisplayController,
-  addcarscart
+  addcarscart,carsfilter
 } = require("../controller/carsController");
 const { adminLogin } = require("../controller/adminLogin");
 const { ContactController } = require("../controller/ContactController");
@@ -27,7 +27,8 @@ const {
   userForgotPasswordOtp,
   updatePassword,
 } = require("../controller/userForgotPasswordController");
-router.post("/payment",initiate)
+router.post("/payment",userAuthMiddlewares,initiate)
+router.post("/capture_payment",capture_payment)
 router.get("/contactDisplay", contactDisplay);
 router.post("/registrations", userRegApi);
 router.post("/login", userLoginApi);
@@ -40,13 +41,13 @@ router.post("/capture_payment",capture_payment)
 router.post(
   "/caradd",
   adminAuthMiddlewares,
-  upload.single("Image"),
   carsInsertController
 );
+router.post("/carsfilter",carsfilter)
 router.post("/addcarscart",userAuthMiddlewares,addcarscart);
 router.get("/cardisplay", carsDisplayController);
 router.post("/cardelete", adminAuthMiddlewares, carsDeleteController);
-router.post("/carupdate", adminAuthMiddlewares, upload.single("Image"),carsUpdateController);
+router.post("/carupdate", adminAuthMiddlewares,carsUpdateController);
 router.post("/bookingcars", userAuthMiddlewares, bookinginsertApi);
 router.post("/bookingdisplay", adminAuthMiddlewares, bookingDisplay);
 router.post("/bookingcancel", userAuthMiddlewares, bookingCancel);
