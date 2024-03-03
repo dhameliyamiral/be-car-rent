@@ -5,7 +5,6 @@ const { carUploadService } = require("../services/carUploadService");
 const carsInsertController = async (req, res) => {
   const {
     plate_number,
-    Image,
     model,
     price,
     description,
@@ -28,10 +27,10 @@ const carsInsertController = async (req, res) => {
     fuel &&
     brand
   ) {
-    try {
+    // try {
       const data = new carsInsertModel({
         plate_number: plate_number,
-        Image: Image,
+        Image: req.file.filename,
         brand: brand,
         model: model,
         price: price,
@@ -49,9 +48,9 @@ const carsInsertController = async (req, res) => {
           data: data,
         });
       });
-    } catch (error) {
-      return res.json({ status: 500, message: "intrnal server error" });
-    }
+    // } catch (error) {
+    //   return res.json({ status: 500, message: "intrnal server error" });
+    // }
   } else {
     return res.json({ status: 200, message: "all field are required" });
   }
@@ -130,8 +129,12 @@ const carsUpdateController = async (req, res) => {
 const carsDisplayController = async (req, res) => {
   try {
     const data = await carsInsertModel.find({ deletedAt: null });
-    return res.json({ status: 200, data: data });
-    // console.log("data = ", data);  image ni url image path 
+    const modifiedData = data.map(car => ({
+      ...car.toObject(),
+      imageUrl: `/uploads/${car.Image}` // Replace '/path/to/images/' with the actual path
+    }));
+    return res.json({ status: 200, data: modifiedData  });
+    // console.log("data = ", data);
   } catch (error) {
     return res.json({ status: 500, message: "intrenal server error" });
   }
