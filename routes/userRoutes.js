@@ -16,7 +16,7 @@ const {
   carsDisplayController,
   addcarscart,
   carsfilter,
-  carimageapi,
+  // carimageapi,
 } = require("../controller/carsController");
 const { adminLogin } = require("../controller/adminLogin");
 const { ContactController } = require("../controller/ContactController");
@@ -61,7 +61,7 @@ router.post(
 router.post("/carsfilter", carsfilter);
 router.post("/addcarscart", userAuthMiddlewares, addcarscart);
 router.get("/cardisplay", carsDisplayController);
-router.get("/image/:imageName", carimageapi);
+// router.get("/image/:imageName", carimageapi);
 router.post("/cardelete", adminAuthMiddlewares, carsDeleteController);
 router.post(
   "/carupdate",

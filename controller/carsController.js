@@ -140,16 +140,16 @@ const carsDisplayController = async (req, res) => {
     return res.json({ status: 500, message: "intrenal server error" });
   }
 };
-const carimageapi = (req, res) => {
-    try {
-      const imageName = req.params.imageName
+// const carimageapi = (req, res) => {
+//     try {
+//       const imageName = req.params.imageName
   
-      res.sendFile(tempPath + '/' + imageName);
+//       res.sendFile(tempPath + '/' + imageName);
   
-    }  catch(error) {
-      res.send({error})
-    } 
-  }
+//     }  catch(error) {
+//       res.send({error})
+//     } 
+//   }
 const addcarscart = async (req, res) => {
   const { car_id, quantity } = req.body;
   const { id: user_id } = req.userData;
@@ -190,5 +190,4 @@ module.exports = {
   carsDisplayController,
   addcarscart,
   carsfilter,
-  carimageapi
 };
