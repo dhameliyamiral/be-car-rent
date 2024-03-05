@@ -1,20 +1,15 @@
 const carsInsertModel = require("../models/carsInsertModel");
 const CartModel = require("../models/CartModel");
-// const fs = require("fs");
-// const multer = require("multer");
-// const cloudinary = require("cloudinary").v2;
 const bookingModel = require("../models/bookingModel");
 const { carUploadService } = require("../services/carUploadService");
 const path = require('path')
 const tempPath = path.join(__dirname, "./../uploads");
 console.log("temp = path === ", tempPath);
-
-
-
 const carsInsertController = async (req, res) => {
   const {
     plate_number,
     model,
+    Image,
     price,
     description,
     mileage,
@@ -24,22 +19,23 @@ const carsInsertController = async (req, res) => {
     fuel,
     brand,
   } = req.body;
-  if (
-    plate_number &&
-    model &&
-    price &&
-    description &&
-    mileage &&
-    Air_Conditioning_Availability &&
-    seats &&
-    luggage &&
-    fuel &&
-    brand
-  ) {
+  // if (
+  //   plate_number &&
+  //   model &&
+  //   price &&
+  //   description &&
+  //   mileage &&
+  //   Air_Conditioning_Availability &&
+  //   seats &&
+  //   luggage &&
+  //   fuel &&
+  //   brand&& Image
+  // ) 
+  {
     try {
       const data = new carsInsertModel({
         plate_number: plate_number,
-        Image: req.file.filename,
+        Image:Image,
         brand: brand,
         model: model,
         price: price,
@@ -58,10 +54,11 @@ const carsInsertController = async (req, res) => {
         });
       });
     } catch (error) {
+      console.log(error);
       return res.json({ status: 500, message: "intrnal server error" });
     }
-  } else {
-    return res.json({ status: 200, message: "all field are required" });
+  // } else {
+  //   return res.json({ status: 200, message: "all field are required" });
   }
 };
 const carsDeleteController = async (req, res) => {

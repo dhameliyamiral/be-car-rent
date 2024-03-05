@@ -4,14 +4,6 @@ const carSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     required: true,
   },
-  // car_id:{
-  //     type: mongoose.Schema.Types.ObjectId,
-  //     required: true
-  // },
-  // quantity:{
-  //     type:Number,
-  //     required:true
-  // }
   items: [
     {
       car_id: {

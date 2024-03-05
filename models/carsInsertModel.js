@@ -6,7 +6,8 @@ const ProductInsertSchema = new mongooes.Schema({
     required: true,
   },
   Image:{
-    type:String
+    type:String,
+    required: true,
   },
   brand: {
     type: String,

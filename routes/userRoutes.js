@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const path = require('path')
+const path = require("path");
 const tempPath = path.join(__dirname, "./../uploads");
 console.log("temp = path === ", tempPath);
-const {initiate} = require("../controller/payment");
+const { initiate, capture_payment } = require("../controller/payment");
 // const {createOrder}=require("../controller/createOrder")
 const { contactDisplay } = require("../controller/contactDisplay");
 const { userAuthMiddlewares } = require("../middlewares/userAuthMiddlewares");
@@ -14,7 +14,9 @@ const {
   carsDeleteController,
   carsUpdateController,
   carsDisplayController,
-  addcarscart,carsfilter,carimageapi
+  addcarscart,
+  carsfilter,
+  carimageapi,
 } = require("../controller/carsController");
 const { adminLogin } = require("../controller/adminLogin");
 const { ContactController } = require("../controller/ContactController");
@@ -24,7 +26,7 @@ const {
   bookingUpdate,
 } = require("../controller/bookingController");
 const { bookingDisplay } = require("../controller/bookingDisplay");
-const { upload } = require("../services/carUploadService");
+// const { upload } = require("../services/carUploadService");
 const {
   userForgotPasswordEmail,
   userForgotPasswordOtp,
@@ -38,10 +40,10 @@ const {
 
 //   }  catch(error) {
 //     res.send({error})
-//   } 
+//   }
 // })
-router.post("/payment",userAuthMiddlewares,initiate)
-// router.post("/capture_payment",capture_payment)
+router.post("/payment", userAuthMiddlewares, initiate);
+router.post("/capture_payment", capture_payment);
 router.get("/contactDisplay", contactDisplay);
 router.post("/registrations", userRegApi);
 router.post("/login", userLoginApi);
@@ -54,15 +56,19 @@ router.post("/contact", ContactController);
 router.post(
   "/caradd",
   adminAuthMiddlewares,
-  upload.single("Image"),
   carsInsertController
 );
-router.post("/carsfilter",carsfilter)
-router.post("/addcarscart",userAuthMiddlewares,addcarscart);
+router.post("/carsfilter", carsfilter);
+router.post("/addcarscart", userAuthMiddlewares, addcarscart);
 router.get("/cardisplay", carsDisplayController);
-router.get("/image/:imageName",carimageapi)
+router.get("/image/:imageName", carimageapi);
 router.post("/cardelete", adminAuthMiddlewares, carsDeleteController);
-router.post("/carupdate", adminAuthMiddlewares, upload.single("Image"),carsUpdateController);
+router.post(
+  "/carupdate",
+  adminAuthMiddlewares,
+  // upload.single("Image"),
+  carsUpdateController
+);
 router.post("/bookingcars", userAuthMiddlewares, bookinginsertApi);
 router.post("/bookingdisplay", adminAuthMiddlewares, bookingDisplay);
 router.post("/bookingcancel", userAuthMiddlewares, bookingCancel);
