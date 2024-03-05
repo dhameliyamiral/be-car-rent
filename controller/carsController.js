@@ -134,7 +134,7 @@ const carsUpdateController = async (req, res) => {
 };
 const carsDisplayController = async (req, res) => {
   try {
-    const data = await carsInsertModel.find();
+    const data = await carsInsertModel.find({deletedAt: null});
     return res.json({ status: 200, data: data  });
   } catch (error) {
     return res.json({ status: 500, message: "intrenal server error" });

@@ -1,14 +1,13 @@
 const paymentModels = require("../models/paymentmodel");
 const razorpay = require("razorpay");
-const dotenv = require('dotenv')
+const dotenv = require("dotenv");
 dotenv.config();
-key_id= process.env.key_id,
-key_secret=process.env.key_secret
+(key_id = process.env.key_id), (key_secret = process.env.key_secret);
 const initiate = async (req, res) => {
   const { amount, currency } = req.body;
   const instance = new razorpay({
     key_id: process.env.key_id,
-    key_secret:process.env.key_secret,
+    key_secret: process.env.key_secret,
   });
   // console.log("instance =",instance);
   // const instance = new razorpay({
@@ -39,26 +38,28 @@ const initiate = async (req, res) => {
 };
 const capture_payment = async (req, res) => {
   const { paymentId, orderId } = req.body;
+//   const data = new paymentModels({
+//     paymentId:paymentId
+//   })
+//  data.save();
   if (!razorpay) {
     res.status(500).send("Razorpay object not initialized");
     return;
-
-}
-const instance = new razorpay({
-  key_id: process.env.key_id,
-  key_secret:process.env.key_secret,
-});
-const payment = await instance.payments.fetch(paymentId)
-console.log(" const payment = ",  payment);
-    if (
-      payment &&
-      payment.order_id ===orderId &&
-      payment.status === "captured"
-    ) {
-      res.send("Payment successful");
-    } else {
-      res.status(400).send("Payment verification failed");
-    }
-  // });
+  }
+  const instance = new razorpay({
+    key_id: process.env.key_id,
+    key_secret: process.env.key_secret,
+  });
+  const payment = await instance.payments.fetch(paymentId);
+  console.log(" const payment = ", payment);
+  if (
+    payment &&
+    payment.order_id === orderId &&
+    payment.status === "captured"
+  ) {
+    res.send("Payment successful");
+  } else {
+    res.status(400).send("Payment verification failed");
+  }
 };
 module.exports = { initiate, capture_payment };
