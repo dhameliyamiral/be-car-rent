@@ -1,7 +1,16 @@
 const carsInsertModel = require("../models/carsInsertModel");
 const CartModel = require("../models/CartModel");
+// const fs = require("fs");
+// const multer = require("multer");
+// const cloudinary = require("cloudinary").v2;
 const bookingModel = require("../models/bookingModel");
 const { carUploadService } = require("../services/carUploadService");
+const path = require('path')
+const tempPath = path.join(__dirname, "./../uploads");
+console.log("temp = path === ", tempPath);
+
+
+
 const carsInsertController = async (req, res) => {
   const {
     plate_number,
@@ -27,7 +36,7 @@ const carsInsertController = async (req, res) => {
     fuel &&
     brand
   ) {
-    // try {
+    try {
       const data = new carsInsertModel({
         plate_number: plate_number,
         Image: req.file.filename,
@@ -48,9 +57,9 @@ const carsInsertController = async (req, res) => {
           data: data,
         });
       });
-    // } catch (error) {
-    //   return res.json({ status: 500, message: "intrnal server error" });
-    // }
+    } catch (error) {
+      return res.json({ status: 500, message: "intrnal server error" });
+    }
   } else {
     return res.json({ status: 200, message: "all field are required" });
   }
@@ -128,17 +137,22 @@ const carsUpdateController = async (req, res) => {
 };
 const carsDisplayController = async (req, res) => {
   try {
-    const data = await carsInsertModel.find({ deletedAt: null });
-    const modifiedData = data.map(car => ({
-      ...car.toObject(),
-      imageUrl: `/uploads/${car.Image}` // Replace '/path/to/images/' with the actual path
-    }));
-    return res.json({ status: 200, data: modifiedData  });
-    // console.log("data = ", data);
+    const data = await carsInsertModel.find();
+    return res.json({ status: 200, data: data  });
   } catch (error) {
     return res.json({ status: 500, message: "intrenal server error" });
   }
 };
+const carimageapi = (req, res) => {
+    try {
+      const imageName = req.params.imageName
+  
+      res.sendFile(tempPath + '/' + imageName);
+  
+    }  catch(error) {
+      res.send({error})
+    } 
+  }
 const addcarscart = async (req, res) => {
   const { car_id, quantity } = req.body;
   const { id: user_id } = req.userData;
@@ -179,4 +193,5 @@ module.exports = {
   carsDisplayController,
   addcarscart,
   carsfilter,
+  carimageapi
 };

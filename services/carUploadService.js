@@ -1,5 +1,6 @@
 const carsInsertModel = require("../models/carsInsertModel")
 const multer =require("multer");
+const path = require('path');
 const carUploadService=[];
 const storage = multer.diskStorage({
     destination:(req,file,cb)=>{
@@ -8,8 +9,7 @@ const storage = multer.diskStorage({
     filename:(req,file,cb)=>{
         const filename=`${Date.now()}-${file.originalname}`;
         cb(null,filename)
-    }
-  
+    }  
 })
 
 const fileFilter = (req, file, cb) => {
@@ -31,4 +31,4 @@ carUploadService.findOne=async(param)=>{
     return data;
 }
 
-module.exports = {carUploadService,upload}; 
+module.exports = {carUploadService,upload }; 

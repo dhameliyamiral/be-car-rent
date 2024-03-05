@@ -24,7 +24,7 @@ const adminLogin = async (req, res) => {
           message: "invalide email and password",
         });
       }
-    } catch (error) {
+    } catch (error) {stryps
       return res.json({ status: 500, message: "internal server error"});
     }
   } else {
