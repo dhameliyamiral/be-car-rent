@@ -19,18 +19,18 @@ const carsInsertController = async (req, res) => {
     fuel,
     brand,
   } = req.body;
-  // if (
-  //   plate_number &&
-  //   model &&
-  //   price &&
-  //   description &&
-  //   mileage &&
-  //   Air_Conditioning_Availability &&
-  //   seats &&
-  //   luggage &&
-  //   fuel &&
-  //   brand&& Image
-  // ) 
+  if (
+    plate_number &&
+    model &&
+    price &&
+    description &&
+    mileage &&
+    Air_Conditioning_Availability &&
+    seats &&
+    luggage &&
+    fuel &&
+    brand&& Image
+  ) 
   {
     try {
       const data = new carsInsertModel({
@@ -57,8 +57,8 @@ const carsInsertController = async (req, res) => {
       console.log(error);
       return res.json({ status: 500, message: "intrnal server error" });
     }
-  // } else {
-  //   return res.json({ status: 200, message: "all field are required" });
+  } else {
+    return res.json({ status: 200, message: "all field are required" });
   }
 };
 const carsDeleteController = async (req, res) => {
@@ -94,21 +94,12 @@ const carsUpdateController = async (req, res) => {
     luggage,
     fuel,
     brand,
+    Image
   } = req.body;
   try {
-    const newcarPic = req.file.filename;
     const product = await carUploadService.findOne({
       plate_number: plate_number,
     });
-    const oldcarPic = product.Image;
-    const fs = require("fs");
-    const filePath = `E:/NodeJs_Prc_FOLDER/git project/be-car-rent/uploads/${oldcarPic}`;
-    try {
-      fs.unlinkSync(filePath);
-      console.log(`File ${filePath} deleted successfully.`);
-    } catch (err) {
-      console.error(`Error deleting file: ${err}`);
-    }
 
     await carsInsertModel.findByIdAndUpdate(
       { _id: product.id },
@@ -116,7 +107,7 @@ const carsUpdateController = async (req, res) => {
         $set: {
           model,
           price,
-          Image: newcarPic,
+          Image,
           description,
           mileage,
           Air_Conditioning_Availability,
@@ -139,7 +130,7 @@ const carsDisplayController = async (req, res) => {
   } catch (error) {
     return res.json({ status: 500, message: "intrenal server error" });
   }
-};
+};  
 // const carimageapi = (req, res) => {
 //     try {
 //       const imageName = req.params.imageName
