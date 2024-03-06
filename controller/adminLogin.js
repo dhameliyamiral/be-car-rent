@@ -24,11 +24,12 @@ const adminLogin = async (req, res) => {
           message: "invalide email and password",
         });
       }
-    } catch (error) {stryps
-      return res.json({ status: 500, message: "internal server error"});
+    } catch (error) {
+      stryps;
+      return res.json({ status: 500, message: "internal server error" });
     }
   } else {
-    return res.json({ status: 400, message: "all field are required"});
+    return res.json({ status: 400, message: "all field are required" });
   }
 };
 module.exports = { adminLogin };

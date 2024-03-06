@@ -128,4 +128,3 @@ const data = await bookingModel.find();
 res.send({data:data})
 }
 module.exports = { bookinginsertApi, bookingUpdate, bookingCancel,bookingdisplay };
-// https://chat.openai.com/share/ce8c028f-2bac-4191-afae-b3da1945bfe0
