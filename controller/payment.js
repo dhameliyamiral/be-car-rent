@@ -17,7 +17,7 @@ const initiate = async (req, res) => {
   // });
   instance.orders
     .create({
-      amount: amount * 100, 
+      amount: amount * 100,
       currency: currency,
     })
     .then((order) => {
@@ -36,8 +36,6 @@ const initiate = async (req, res) => {
       console.error("Error occurred during order creation:", error);
       res.status(500).json({ error: "Internal server error" });
     });
-   
-
 };
 const capture_payment = async (req, res) => {
   const { paymentId, orderId } = req.body;
@@ -45,6 +43,10 @@ const capture_payment = async (req, res) => {
     res.status(500).send("Razorpay object not initialized");
     return;
   }
+  const data = await paymentModels.findOneAndUpdate(
+    { orderId: orderId },
+    { $set: { paymentId: paymentId } }
+  );
   const instance = new razorpay({
     key_id: process.env.key_id,
     key_secret: process.env.key_secret,
@@ -57,19 +59,31 @@ const capture_payment = async (req, res) => {
       payment.order_id === orderId &&
       payment.status === "captured"
     ) {
-      console.log("order id ",bookingModel);
+      console.log("order id ", bookingModel);
       const { id: user_id } = req.userData;
-      const data = await bookingModel.findOneAndUpdate({ user_id: user_id }, { $set: { status: "Success" } })
-      console.log("data ==",data);
-      res.status(200).send({message:"Payment successful"});
+      const data = await bookingModel.findOneAndUpdate(
+        { user_id: user_id },
+        { $set: { status: "Success" } }
+      );
+      console.log("data ==", data);
+      res
+        .status(200)
+        .send({ message: "Payment successful, Your booking is confirmed!" });
     } else {
-      const data2 = await bookingModel.findOneAndUpdate({ orderId: orderId }, { $set: { status: "Cancelled" } })
-      return res.status(400).send({message:"Payment verification failed",data2:data2});
+      const data2 = await bookingModel.findOneAndUpdate(
+        { orderId: orderId },
+        { $set: { status: "Cancelled" } }
+      );
+      return res
+        .status(400)
+        .send({
+          message: "Payment failed, Your booking is failed!",
+          data2: data2,
+        });
     }
   } catch (error) {
     console.error("Error capturing payment:", error);
     return res.status(500).send("Error capturing payment: " + error.message);
   }
-
 };
 module.exports = { initiate, capture_payment };

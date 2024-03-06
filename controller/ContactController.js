@@ -49,7 +49,6 @@ const ContactController = async (req, res) => {
   }
 };
 module.exports = { ContactController };
-
 // Types of vehicles available for rental
 // Rental rates, including any discounts or promotions
 // Availability of optional features such as GPS navigation, child seats, etc.

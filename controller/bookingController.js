@@ -13,7 +13,6 @@ const bookinginsertApi = async (req, res) => {
   const [pickup_date, return_date] = date_time_range.split('-');
   const dateFormat = "YYYY-MM-DD";
   const currentDate = moment().startOf("day");
-  // console.log("current date = ", currentDate);
   if (
     moment(pickup_date, dateFormat) < currentDate ||
     moment(return_date, dateFormat) < currentDate
@@ -124,7 +123,9 @@ const bookingCancel = async (req, res) => {
     return res.json({ status: 500, message: "intrnal server error" });
   }
 };
-// const bookingdisplay = async(req,res)=>{
-// }
-module.exports = { bookinginsertApi, bookingUpdate, bookingCancel };
+const bookingdisplay = async(req,res)=>{
+const data = await bookingModel.find();
+res.send({data:data})
+}
+module.exports = { bookinginsertApi, bookingUpdate, bookingCancel,bookingdisplay };
 // https://chat.openai.com/share/ce8c028f-2bac-4191-afae-b3da1945bfe0
