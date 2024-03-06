@@ -6,14 +6,14 @@ const bookinginsertApi = async (req, res) => {
     car_id,
     pickup_Location,
     dropoff_Location,
-    pickup_date,
-    return_date,
+    date_time_range,
     pickup_time,
     return_time,
   } = req.body;
+  const [pickup_date, return_date] = date_time_range.split('-');
   const dateFormat = "YYYY-MM-DD";
   const currentDate = moment().startOf("day");
-  console.log("current date = ", currentDate);
+  // console.log("current date = ", currentDate);
   if (
     moment(pickup_date, dateFormat) < currentDate ||
     moment(return_date, dateFormat) < currentDate
@@ -35,8 +35,8 @@ const bookinginsertApi = async (req, res) => {
       car_id &&
       pickup_Location &&
       dropoff_Location &&
-      pickup_date &&
-      return_date &&
+      pickup_date&&
+      return_date&&
       pickup_time &&
       return_time
     ) {
