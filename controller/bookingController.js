@@ -23,13 +23,6 @@ const bookinginsertApi = async (req, res) => {
   if (moment(return_date, dateFormat) <= moment(pickup_date, dateFormat)) {
     return res.json({ message: "Return date should be after pickup date" });
   }
-  const isValidTimeFormat = (timeString) => {
-    const regex = /^(0?[1-9]|1[0-2]):[0-5][0-9] (AM|PM)$/i;
-    return regex.test(timeString);
-  };
-  if (!isValidTimeFormat(pickup_time) || !isValidTimeFormat(return_time)) {
-    return res.json({ message: "Time should be in the format HH:MM AM/PM" });
-  }
   try {
     if (
       car_id &&
@@ -86,13 +79,7 @@ const bookingUpdate = async (req, res) => {
   if (moment(return_date, dateFormat) <= moment(pickup_date, dateFormat)) {
     return res.json({ message: "Return date should be after pickup date" });
   }
-  // const isValidTimeFormat = (timeString) => {
-  //   const regex = /^(0?[1-9]|1[0-2]):[0-5][0-9] (AM|PM)$/i;
-  //   return regex.test(timeString);
-  // };
-  // if (!isValidTimeFormat(pickup_time) || !isValidTimeFormat(return_time)) {
-  //   return res.json({ message: "Time should be in the format HH:MM AM/PM" });
-  // }
+
   const { id: user_id } = req.userData;
   console.log("user id = ", user_id);
   const user = await bookingModel.findOne({
@@ -137,5 +124,7 @@ const bookingCancel = async (req, res) => {
     return res.json({ status: 500, message: "intrnal server error" });
   }
 };
+// const bookingdisplay = async(req,res)=>{
+// }
 module.exports = { bookinginsertApi, bookingUpdate, bookingCancel };
 // https://chat.openai.com/share/ce8c028f-2bac-4191-afae-b3da1945bfe0

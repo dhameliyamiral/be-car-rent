@@ -43,7 +43,7 @@ const {
 //   }
 // })
 router.post("/payment", userAuthMiddlewares, initiate);
-router.post("/capture_payment", capture_payment);
+router.post("/capture_payment",userAuthMiddlewares,capture_payment);
 router.get("/contactDisplay", contactDisplay);
 router.post("/registrations", userRegApi);
 router.post("/login", userLoginApi);
