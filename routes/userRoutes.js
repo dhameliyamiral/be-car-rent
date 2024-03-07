@@ -6,6 +6,7 @@ console.log("temp = path === ", tempPath);
 const { initiate, capture_payment } = require("../controller/payment");
 // const {createOrder}=require("../controller/createOrder")
 const { contactDisplay } = require("../controller/contactDisplay");
+const {CommentsController} = require("../controller/CommentsController")
 const { userAuthMiddlewares } = require("../middlewares/userAuthMiddlewares");
 const { adminAuthMiddlewares } = require("../middlewares/adminAuthMiddlewares");
 const { userRegApi, userLoginApi } = require("../controller/usersController");
@@ -18,6 +19,7 @@ const {
   carsfilter
   // carimageapi,
 } = require("../controller/carsController");
+
 const { adminLogin } = require("../controller/adminLogin");
 const { ContactController } = require("../controller/ContactController");
 const {
@@ -41,6 +43,7 @@ const {
 //     res.send({error})
 //   }
 // })
+router.post("/addComments",CommentsController);
 router.post("/bookingdisplay",adminAuthMiddlewares,bookingdisplay )
 router.post("/payment", userAuthMiddlewares, initiate);
 router.post("/capture_payment",userAuthMiddlewares,capture_payment);
