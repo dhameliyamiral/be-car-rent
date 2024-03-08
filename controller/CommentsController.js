@@ -16,4 +16,8 @@ const CommentsController = async (req, res) => {
     });
   }
 };
-module.exports={CommentsController}
+const displaycommentController = async(req,res)=>{
+  const data = await addCommentsModels.find();
+res.send({data:data})
+}
+module.exports={CommentsController,displaycommentController}
