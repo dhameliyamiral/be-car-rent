@@ -70,7 +70,7 @@ const userForgotPasswordOtp = async (req, res) => {
   }
 };
 const updatePassword = async (req, res) => {
-  const { email, newpassword } = req.body;
+  const { email, newpassword,conformPassword} = req.body;
   try {
     const user = await userModel.findOne({ email });
     if (!user) {
@@ -81,6 +81,11 @@ const updatePassword = async (req, res) => {
       { email: user.email },
       { $set: { password: hashedPassword } }
     );
+    const hashConformPass = await bcrypt.hash(conformPassword,10);
+    await userModel.updateOne(
+      {email:user.email},
+      {$set:{conformPassword:hashConformPass}}
+    )
     await userModel.updateOne({ email }, { otp: null, otpExpiration: null });
     res.status(200).json({ message: "Password Updated Successfully" });
   } catch (error) {

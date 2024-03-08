@@ -20,6 +20,10 @@ const registrationSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  conformPassword:{
+    type: String,
+    required: true,
+  },
   gender: {
     type: String,
     required: true,
