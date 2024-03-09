@@ -2,7 +2,7 @@ const carsInsertModel = require("../models/carsInsertModel");
 const CartModel = require("../models/CartModel");
 const bookingModel = require("../models/bookingModel");
 const { carUploadService } = require("../services/carUploadService");
-const path = require('path')
+const path = require("path");
 const tempPath = path.join(__dirname, "./../uploads");
 console.log("temp = path === ", tempPath);
 const carsInsertController = async (req, res) => {
@@ -19,23 +19,23 @@ const carsInsertController = async (req, res) => {
     fuel,
     brand,
   } = req.body;
-  // if (
-  //   plate_number &&
-  //   model &&
-  //   price &&
-  //   description &&
-  //   mileage &&
-  //   Air_Conditioning_Availability &&
-  //   seats &&
-  //   luggage &&
-  //   fuel &&
-  //   brand&& Image
-  // ) 
-  // {
+  if (
+    plate_number &&
+    model &&
+    price &&
+    description &&
+    mileage &&
+    Air_Conditioning_Availability &&
+    seats &&
+    luggage &&
+    fuel &&
+    brand &&
+    Image
+  ) {
     try {
       const data = new carsInsertModel({
         plate_number: plate_number,
-        Image:Image,
+        Image: Image,
         brand: brand,
         model: model,
         price: price,
@@ -57,9 +57,9 @@ const carsInsertController = async (req, res) => {
       console.log(error);
       return res.json({ status: 500, message: "intrnal server error" });
     }
-  // } else {
-  //   return res.json({ status: 200, message: "all field are required" });
-  // }
+  } else {
+    return res.json({ status: 200, message: "all field are required" });
+  }
 };
 const carsDeleteController = async (req, res) => {
   try {
@@ -94,7 +94,7 @@ const carsUpdateController = async (req, res) => {
     luggage,
     fuel,
     brand,
-    Image
+    Image,
   } = req.body;
   try {
     const product = await carUploadService.findOne({
@@ -125,54 +125,64 @@ const carsUpdateController = async (req, res) => {
 };
 const carsDisplayController = async (req, res) => {
   try {
-    const data = await carsInsertModel.find({deletedAt: null});
-    return res.json({ status: 200, data: data  });
+    const data = await carsInsertModel.find({ deletedAt: null });
+    return res.json({ status: 200, data: data });
   } catch (error) {
     return res.json({ status: 500, message: "intrenal server error" });
   }
-};  
+};
 // const carimageapi = (req, res) => {
 //     try {
 //       const imageName = req.params.imageName
-  
+
 //       res.sendFile(tempPath + '/' + imageName);
-  
+
 //     }  catch(error) {
 //       res.send({error})
-//     } 
+//     }
 //   }
 const addcarscart = async (req, res) => {
-  const { car_id, quantity } = req.body;
+  const { car_id } = req.body;
   const { id: user_id } = req.userData;
   console.log("user_id = ", user_id);
   let cart = await CartModel.findOne({ user_id });
   if (!cart) {
     cart = new CartModel({ user_id, items: [] });
   }
-  const existingItem = cart.items.find((item) => item.car_id === car_id);
-  if (existingItem) {
-    existingItem.quantity += quantity;
-  } else {
-    cart.items.push({ car_id, quantity });
-  }
+  cart.items.push({ car_id });
   await cart.save();
-  res.json({ success: true, message: "Car added to cart successfully." });
+  const itemCount = cart.items.length;
+  res.json({
+    success: true,
+    message: "Car added to cart successfully.",
+    itemCount,
+  });
 };
+const displayCart = async(req,res)=>{
+  const { id: user_id } = req.userData;
+  const Cartdata = await CartModel.find({user_id}) 
+  res.json(Cartdata)
+}
 const carsfilter = async (req, res) => {
-  const { pickup_date , return_date } = req.body;
+  const { pickup_date, return_date } = req.body;
   const overlappingBookings = await bookingModel.find({
     $or: [
-      { pickupdate: { $gte:pickup_date,$lte: return_date } }, 
-      { returndate: { $gte: pickup_date,$lte: return_date} }, 
-      {$and:[{pickupdate:{$lte:pickup_date}},{returndate:{$gte:return_date}}]}
+      { pickupdate: { $gte: pickup_date, $lte: return_date } },
+      { returndate: { $gte: pickup_date, $lte: return_date } },
+      {
+        $and: [
+          { pickupdate: { $lte: pickup_date } },
+          { returndate: { $gte: return_date } },
+        ],
+      },
     ],
-  })
-const bookedCarIds = overlappingBookings.map(booking=>booking.car_id);
-const avilableCars=await carsInsertModel.find({
-  _id:{$nin:bookedCarIds}
-})
+  });
+  const bookedCarIds = overlappingBookings.map((booking) => booking.car_id);
+  const avilableCars = await carsInsertModel.find({
+    _id: { $nin: bookedCarIds },
+  });
 
-res.json(avilableCars);
+  res.json(avilableCars);
 };
 module.exports = {
   carsInsertController,
@@ -180,5 +190,5 @@ module.exports = {
   carsUpdateController,
   carsDisplayController,
   addcarscart,
-  carsfilter,
+  carsfilter,displayCart
 };

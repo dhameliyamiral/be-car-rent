@@ -132,10 +132,8 @@ const bookingdisplay = async(req,res)=>{
     console.log("carIds = = ",carIds);
     let cardata = [];
     if (carIds.length > 0) {
-        // Find car data associated with carIds
         cardata = await carsInsertModel.find({ _id: { $in: carIds } });
     }
-    // const cardata = await carsInsertModel.find({carIds});
     const combined = {
       bookings: bookingdata,
       cars: cardata

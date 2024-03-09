@@ -16,7 +16,7 @@ const {
   carsUpdateController,
   carsDisplayController,
   addcarscart,
-  carsfilter
+  carsfilter,displayCart
   // carimageapi,
 } = require("../controller/carsController");
 
@@ -43,6 +43,7 @@ const {
 //     res.send({error})
 //   }
 // })
+router.get("/displayCart",userAuthMiddlewares,displayCart);
 router.get("/displayComment",displaycommentController);
 router.post("/addComments",CommentsController);
 router.post("/bookingdisplay",userAuthMiddlewares,bookingdisplay);
