@@ -43,9 +43,9 @@ const {
 //     res.send({error})
 //   }
 // })
-router.get("/displayComment",displaycommentController)
+router.get("/displayComment",displaycommentController);
 router.post("/addComments",CommentsController);
-router.post("/bookingdisplay",adminAuthMiddlewares,bookingdisplay )
+router.post("/bookingdisplay",userAuthMiddlewares,bookingdisplay);
 router.post("/payment", userAuthMiddlewares, initiate);
 router.post("/capture_payment",userAuthMiddlewares,capture_payment);
 router.get("/contactDisplay", contactDisplay);

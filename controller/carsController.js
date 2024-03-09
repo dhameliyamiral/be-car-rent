@@ -19,19 +19,19 @@ const carsInsertController = async (req, res) => {
     fuel,
     brand,
   } = req.body;
-  if (
-    plate_number &&
-    model &&
-    price &&
-    description &&
-    mileage &&
-    Air_Conditioning_Availability &&
-    seats &&
-    luggage &&
-    fuel &&
-    brand&& Image
-  ) 
-  {
+  // if (
+  //   plate_number &&
+  //   model &&
+  //   price &&
+  //   description &&
+  //   mileage &&
+  //   Air_Conditioning_Availability &&
+  //   seats &&
+  //   luggage &&
+  //   fuel &&
+  //   brand&& Image
+  // ) 
+  // {
     try {
       const data = new carsInsertModel({
         plate_number: plate_number,
@@ -57,9 +57,9 @@ const carsInsertController = async (req, res) => {
       console.log(error);
       return res.json({ status: 500, message: "intrnal server error" });
     }
-  } else {
-    return res.json({ status: 200, message: "all field are required" });
-  }
+  // } else {
+  //   return res.json({ status: 200, message: "all field are required" });
+  // }
 };
 const carsDeleteController = async (req, res) => {
   try {

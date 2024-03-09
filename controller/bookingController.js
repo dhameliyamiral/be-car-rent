@@ -1,4 +1,5 @@
 const bookingModel = require("../models/bookingModel");
+const carsInsertModel = require("../models/carsInsertModel");
 const bookingService = require("../services/bookingService");
 const moment = require("moment");
 const bookinginsertApi = async (req, res) => {
@@ -124,7 +125,21 @@ const bookingCancel = async (req, res) => {
   }
 };
 const bookingdisplay = async(req,res)=>{
-const data = await bookingModel.find();
-res.send({data:data})
+    const {id:user_id}=req.userData;
+    const bookingdata = await bookingModel.find({user_id})
+    console.log("data==",bookingdata);
+    const carIds = bookingdata.map(booking => booking.car_id);
+    console.log("carIds = = ",carIds);
+    let cardata = [];
+    if (carIds.length > 0) {
+        // Find car data associated with carIds
+        cardata = await carsInsertModel.find({ _id: { $in: carIds } });
+    }
+    // const cardata = await carsInsertModel.find({carIds});
+    const combined = {
+      bookings: bookingdata,
+      cars: cardata
+  };
+    res.json(combined);
 }
 module.exports = { bookinginsertApi, bookingUpdate, bookingCancel,bookingdisplay };
