@@ -126,16 +126,32 @@ const carsUpdateController = async (req, res) => {
   }
 };
 const carsDisplayController = async (req, res) => {
-  const data = await carsInsertModel.find({ deletedAt: null });
-  let filteredData = data;
-  const aa = req.query.model
-  console.log("aa",aa);
-  // if (req.query.model) {
-  //   filteredData = filteredData.filter((item) =>
-  //     item.model.toLowerCase().includes(req.query.model.toLowerCase())
-  //   );
-  // }
-  res.json(filteredData);
+  try {
+    const { fuel, price, brand,seats } = req.query;
+    const filter = {};
+    if (fuel) {
+      filter.fuel = fuel;
+    }
+    if(seats){
+      filter.seats = seats;
+    }
+    if (price) {
+      const [minPrice, maxPrice] = price.split("-");
+      filter.price = { $gte: minPrice, $lte: maxPrice };
+    }
+    if (brand) {
+      filter.brand = brand;
+    }
+    let query = carsInsertModel.find();
+    if (Object.keys(filter).length > 0) {
+      query = query.where(filter);
+    }
+    const products = await query.exec();
+    res.json(products);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server Error" });
+  }
 };
 // const carimageapi = (req, res) => {
 //     try {
