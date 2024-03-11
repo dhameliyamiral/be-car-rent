@@ -1,6 +1,8 @@
 const carsInsertModel = require("../models/carsInsertModel");
 const CartModel = require("../models/CartModel");
 const bookingModel = require("../models/bookingModel");
+// const bodyParser = require('body-parser');
+// app.use(bodyParser.json());
 const { carUploadService } = require("../services/carUploadService");
 const path = require("path");
 const tempPath = path.join(__dirname, "./../uploads");
@@ -124,12 +126,16 @@ const carsUpdateController = async (req, res) => {
   }
 };
 const carsDisplayController = async (req, res) => {
-  try {
-    const data = await carsInsertModel.find({ deletedAt: null });
-    return res.json({ status: 200, data: data });
-  } catch (error) {
-    return res.json({ status: 500, message: "intrenal server error" });
-  }
+  const data = await carsInsertModel.find({ deletedAt: null });
+  let filteredData = data;
+  const aa = req.query.model
+  console.log("aa",aa);
+  // if (req.query.model) {
+  //   filteredData = filteredData.filter((item) =>
+  //     item.model.toLowerCase().includes(req.query.model.toLowerCase())
+  //   );
+  // }
+  res.json(filteredData);
 };
 // const carimageapi = (req, res) => {
 //     try {
@@ -158,11 +164,11 @@ const addcarscart = async (req, res) => {
     itemCount,
   });
 };
-const displayCart = async(req,res)=>{
+const displayCart = async (req, res) => {
   const { id: user_id } = req.userData;
-  const Cartdata = await CartModel.find({user_id}) 
-  res.json(Cartdata)
-}
+  const Cartdata = await CartModel.find({ user_id });
+  res.json(Cartdata);
+};
 const carsfilter = async (req, res) => {
   const { pickup_date, return_date } = req.body;
   const overlappingBookings = await bookingModel.find({
@@ -190,5 +196,6 @@ module.exports = {
   carsUpdateController,
   carsDisplayController,
   addcarscart,
-  carsfilter,displayCart
+  carsfilter,
+  displayCart,
 };

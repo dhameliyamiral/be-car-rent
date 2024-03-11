@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const path = require("path");
+
 const tempPath = path.join(__dirname, "./../uploads");
 console.log("temp = path === ", tempPath);
 const { initiate, capture_payment } = require("../controller/payment");
@@ -17,7 +18,6 @@ const {
   carsDisplayController,
   addcarscart,
   carsfilter,displayCart
-  // carimageapi,
 } = require("../controller/carsController");
 
 const { adminLogin } = require("../controller/adminLogin");
@@ -46,7 +46,7 @@ const {
 router.get("/displayCart",userAuthMiddlewares,displayCart);
 router.get("/displayComment",displaycommentController);
 router.post("/addComments",CommentsController);
-router.post("/bookingdisplay",userAuthMiddlewares,bookingdisplay);
+router.get("/bookingdisplay",userAuthMiddlewares,bookingdisplay);
 router.post("/payment", userAuthMiddlewares, initiate);
 router.post("/capture_payment",userAuthMiddlewares,capture_payment);
 router.get("/contactDisplay", contactDisplay);
