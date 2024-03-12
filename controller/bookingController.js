@@ -66,6 +66,11 @@ const bookingUpdate = async (req, res) => {
     pickup_time,
     return_time,
   } = req.body;
+  if (!date_time_range) {
+    console.error("date_time_range is undefined or null");
+    return; // Exit the function or handle the error appropriately
+  }
+
   const [pickup_date, return_date] = date_time_range.split('-');
   const dateFormat = "YYYY-MM-DD";
   const currentDate = moment().startOf("day");
@@ -139,5 +144,5 @@ const bookingdisplay = async(req,res)=>{
       cars: cardata
   };
     res.json(combined);
-}
+};
 module.exports = { bookinginsertApi, bookingUpdate, bookingCancel,bookingdisplay };

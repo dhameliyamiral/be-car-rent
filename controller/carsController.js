@@ -1,8 +1,6 @@
 const carsInsertModel = require("../models/carsInsertModel");
 const CartModel = require("../models/CartModel");
 const bookingModel = require("../models/bookingModel");
-// const bodyParser = require('body-parser');
-// app.use(bodyParser.json());
 const { carUploadService } = require("../services/carUploadService");
 const path = require("path");
 const tempPath = path.join(__dirname, "./../uploads");
@@ -153,7 +151,7 @@ const carsDisplayController = async (req, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 };
-// const carimageapi = (req, res) => {
+//const carimageapi = (req, res) => {
 //     try {
 //       const imageName = req.params.imageName
 
@@ -162,7 +160,7 @@ const carsDisplayController = async (req, res) => {
 //     }  catch(error) {
 //       res.send({error})
 //     }
-//   }
+//}
 const addcarscart = async (req, res) => {
   const { car_id } = req.body;
   const { id: user_id } = req.userData;

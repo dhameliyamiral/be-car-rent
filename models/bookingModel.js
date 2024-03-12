@@ -38,18 +38,10 @@ const bookingSchema = new mongoose.Schema({
     default:"Pending",
     type:String
   },
-  creation_date: {
-    type: Date,
-    default: Date.now,
-  },
-  last_update_date: {
-    type: Date,
-    default:null,
-  },
   deletedAt: {
     type: Date,
     default: null,
   }
-});
+},{ timestamps: true });
 const bookingModel = mongoose.model("Booking", bookingSchema);
 module.exports = bookingModel;

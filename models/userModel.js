@@ -32,7 +32,7 @@ const registrationSchema = new mongoose.Schema({
     type: Date,
     default: null,
   },
-});
+},{ timestamps: true });
 const userModel = mongoose.model("registrations", registrationSchema);
 module.exports = userModel;
 

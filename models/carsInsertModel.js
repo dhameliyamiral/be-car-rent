@@ -49,6 +49,6 @@ const ProductInsertSchema = new mongooes.Schema({
     type: Date,
     default: null,
   },
-});
+},{ timestamps: true });
 const carsInsertModel = mongooes.model("carsDetails", ProductInsertSchema);
 module.exports = carsInsertModel;
