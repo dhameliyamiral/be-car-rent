@@ -6,9 +6,7 @@ const cors = require("cors");
 const app = express();
 const port = process.env.port;
 const db_url = process.env.db_url;
-
 app.use(cors({ origin: "*" }));
-
 const connectdb = async (db_url) => {
   const DB_OPTION = {
     dbname: process.env.db_name,
@@ -28,5 +26,4 @@ const connectdb = async (db_url) => {
       console.log("error connecting to mongodb:", error);
     });
 };
-
 connectdb(db_url);

@@ -11,6 +11,7 @@ const {
   CommentsController,
   displaycommentController,
 } = require("../controller/CommentsController");
+const { subscribationController } = require("../controller/subscribationController")
 const { userAuthMiddlewares } = require("../middlewares/userAuthMiddlewares");
 const { adminAuthMiddlewares } = require("../middlewares/adminAuthMiddlewares");
 const { userRegApi, userLoginApi } = require("../controller/usersController");
@@ -49,6 +50,7 @@ const {
 //     res.send({error})
 //   }
 // })
+router.post("/subscribation",subscribationController)
 router.get("/displayCart", userAuthMiddlewares, displayCart);
 router.get("/displayComment", displaycommentController);
 router.post("/addComments", CommentsController);
