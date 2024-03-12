@@ -3,18 +3,12 @@ const bookingModel = require("../models/bookingModel");
 const razorpay = require("razorpay");
 const dotenv = require("dotenv");
 dotenv.config();
-// (key_id = "rzp_test_KwZ7WszBpVqti2"), (key_secret = "zJRGR31v0usGCsDU4nWWNzCq");
 const initiate = async (req, res) => {
   const { amount, currency } = req.body;
   const instance = new razorpay({
-    key_id: "rzp_test_KwZ7WszBpVqti2",
-    key_secret: "zJRGR31v0usGCsDU4nWWNzCq",
+    key_id: process.env.key_id,
+    key_secret: process.env.key_secret,
   });
-  // console.log("instance =",instance);
-  // const instance = new razorpay({
-  //   key_id: "rzp_test_gO03fR1qTORv8s",
-  //   key_secret: "J3hzFOZjIWlUsMOOprKhHrXL",
-  // });
   instance.orders
     .create({
       amount: amount * 100,
