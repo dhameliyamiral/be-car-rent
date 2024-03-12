@@ -140,7 +140,7 @@ const carsDisplayController = async (req, res) => {
     if (brand) {
       filter.brand = brand;
     }
-    let query = carsInsertModel.find();
+    let query = carsInsertModel.find({deletedAt: null});
     if (Object.keys(filter).length > 0) {
       query = query.where(filter);
     }
