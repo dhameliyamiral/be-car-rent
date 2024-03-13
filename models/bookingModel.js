@@ -10,6 +10,10 @@ const bookingSchema = new mongoose.Schema({
     ref: "registrations",
     required: true,
   },
+  price:{
+    type:Number,
+    required:true,
+  },
   pickup_Location: {
     type: String,
     required: true,

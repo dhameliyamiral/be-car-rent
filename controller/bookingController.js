@@ -10,6 +10,7 @@ const bookinginsertApi = async (req, res) => {
     date_time_range,
     pickup_time,
     return_time,
+    price
   } = req.body;
   const [pickup_date, return_date] = date_time_range.split("-");
   const dateFormat = "YYYY-MM-DD";
@@ -43,6 +44,7 @@ const bookinginsertApi = async (req, res) => {
         return_date,
         pickup_time,
         return_time,
+        price
       });
       bookingService.create(data).then((data) => {
         res.status(200).json({ message: "Booking Successfully..!!", data });
