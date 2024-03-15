@@ -33,6 +33,7 @@ const {
   bookingUpdate,
   bookingdisplay,
   searchbooking,
+  adminbookingdispaly
 } = require("../controller/bookingController");
 // console.log("searchbooking =",searchbooking);
 const {
@@ -50,6 +51,7 @@ const {
 //     res.send({error})
 //   }
 // })
+router.get("/adminbookingdispaly",adminAuthMiddlewares,adminbookingdispaly)
 router.post("/subscribation",subscribationController)
 router.get("/displayCart", userAuthMiddlewares, displayCart);
 router.get("/displayComment", displaycommentController);

@@ -124,9 +124,12 @@ const bookingCancel = async (req, res) => {
       { _id: Booking.id },
       { $set: { deletedAt: date } }
     );
+    const data = await bookingModel.findOneAndUpdate(
+      { user_id: user_id },
+      { $set: { status: "Cancel" } }
+    );
+    console.log("data ==", data);
     res.json({ message: "Documnet Deleted Successfully..!!" });
-    // const find = await bookingModel.find();
-    // console.log("find = ",find);
   } catch (error) {
     return res.json({ status: 500, message: "intrnal server error" });
   }
@@ -193,8 +196,25 @@ const searchbooking = async (req, res) => {
   });
   res.json(availableCars);
 };
+const adminbookingdispaly = async(req,res)=>{
+    // const { id: user_id } = req.userData;
+  const bookingdata = await bookingModel.find();
+  console.log("data==", bookingdata);
+  const carIds = bookingdata.map((booking) => booking.car_id);
+  console.log("carIds = = ", carIds);
+  let cardata = [];
+  if (carIds.length > 0) {
+    cardata = await carsInsertModel.find({ _id: { $in: carIds } });
+  }
+  const combined = {
+    bookings: bookingdata,
+    cars: cardata,
+  };
+  res.json(combined);
+}
 module.exports = {
   bookinginsertApi,
+  adminbookingdispaly,
   bookingUpdate,
   bookingCancel,
   bookingdisplay,
