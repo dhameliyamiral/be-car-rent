@@ -197,7 +197,6 @@ const searchbooking = async (req, res) => {
   res.json(availableCars);
 };
 const adminbookingdispaly = async(req,res)=>{
-    // const { id: user_id } = req.userData;
   const bookingdata = await bookingModel.find();
   console.log("data==", bookingdata);
   const carIds = bookingdata.map((booking) => booking.car_id);

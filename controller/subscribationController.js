@@ -33,4 +33,8 @@ const subscribationController = async(req,res)=>{
       await data.save();
       res.json({data:data})
 }
-module.exports = {subscribationController}
+const admindisplaysubscribation = async(req,res)=>{
+  const data = await subscribModel.find();
+    res.json({status:200,message:{data}})
+}
+module.exports = {subscribationController,admindisplaysubscribation}

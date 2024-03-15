@@ -126,5 +126,9 @@ const userLoginApi = async (req, res) => {
     });
   }
 };
-module.exports = { userRegApi ,userLoginApi};
+const admindisplayuser = async(req,res)=>{
+  const data = await userModel.find();
+    res.json({status:200,message:{data}})
+}
+module.exports = { userRegApi ,userLoginApi,admindisplayuser};
 

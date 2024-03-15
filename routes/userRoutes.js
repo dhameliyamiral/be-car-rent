@@ -11,10 +11,10 @@ const {
   CommentsController,
   displaycommentController,
 } = require("../controller/CommentsController");
-const { subscribationController } = require("../controller/subscribationController")
+const { subscribationController ,admindisplaysubscribation} = require("../controller/subscribationController")
 const { userAuthMiddlewares } = require("../middlewares/userAuthMiddlewares");
 const { adminAuthMiddlewares } = require("../middlewares/adminAuthMiddlewares");
-const { userRegApi, userLoginApi } = require("../controller/usersController");
+const { userRegApi, userLoginApi,admindisplayuser } = require("../controller/usersController");
 const {
   carsInsertController,
   carsDeleteController,
@@ -77,4 +77,6 @@ router.post("/bookingcars", userAuthMiddlewares, bookinginsertApi);
 router.post("/bookingcancel", userAuthMiddlewares, bookingCancel);
 router.post("/bookingUpdate", userAuthMiddlewares, bookingUpdate);
 router.get("/searchbooking", searchbooking);
+router.get("/admindisplayuser",adminAuthMiddlewares,admindisplayuser);
+router.get("/admindisplaysubscribation",adminAuthMiddlewares,admindisplaysubscribation)
 module.exports = router;
