@@ -77,6 +77,6 @@ router.post("/bookingcars", userAuthMiddlewares, bookinginsertApi);
 router.post("/bookingcancel", userAuthMiddlewares, bookingCancel);
 router.post("/bookingUpdate", userAuthMiddlewares, bookingUpdate);
 router.get("/searchbooking", searchbooking);
-router.get("/admindisplayuser",adminAuthMiddlewares,admindisplayuser);
-router.get("/admindisplaysubscribation",adminAuthMiddlewares,admindisplaysubscribation)
+router.get("/admindisplayuser",admindisplayuser);
+router.get("/admindisplaysubscribation",admindisplaysubscribation)
 module.exports = router;
