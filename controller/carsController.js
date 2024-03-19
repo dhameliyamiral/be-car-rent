@@ -32,6 +32,9 @@ const carsInsertController = async (req, res) => {
     brand &&
     Image
   ) {
+    if (!["petrol", "diesel", "cng"].includes(fuel.toLowerCase())) {
+      return res.status(400).json({ status: 400, message: "Invalid fuel type" });
+    }
     try {
       const data = new carsInsertModel({
         plate_number: plate_number,

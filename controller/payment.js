@@ -32,7 +32,7 @@ const initiate = async (req, res) => {
     });
 };
 const capture_payment = async (req, res) => {
-  const { paymentId, orderId } = req.body;
+  const { paymentId, orderId,booking_id } = req.body;
   if (!razorpay) {
     res.status(500).send("Razorpay object not initialized");
     return;
@@ -54,9 +54,9 @@ const capture_payment = async (req, res) => {
       payment.status === "captured"
     ) {
       console.log("order id ", bookingModel);
-      const { id: user_id } = req.userData;
+      // const { id: user_id } = req.userData;
       const data = await bookingModel.findOneAndUpdate(
-        { user_id: user_id },
+        { _id: booking_id },
         { $set: { status: "Success" } }
       );
       console.log("data ==", data);
@@ -80,4 +80,4 @@ const capture_payment = async (req, res) => {
     return res.status(500).send("Error capturing payment: " + error.message);
   }
 };
-module.exports = { initiate, capture_payment };
+module.exports = { initiate, capture_payment }
