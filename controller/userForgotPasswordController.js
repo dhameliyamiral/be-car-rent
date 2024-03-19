@@ -17,6 +17,9 @@ const userForgotPasswordEmail = async (req, res) => {
             user: process.env.EMAIL_USER,
             pass: process.env.EMAIL_PASS,
           },
+          tls: {
+            rejectUnauthorized: false
+          }
         });
         const generateOTP = () =>
           Math.floor(1000 + Math.random() * 9000).toString();
