@@ -187,7 +187,8 @@ const displayCart = async (req, res) => {
   res.json(Cartdata);
 };
 const carsfilter = async (req, res) => {
-  const { pickup_date, return_date } = req.body;
+  const { date_time_range ,location } = req.body;
+  const [pickup_date, return_date] = date_time_range.split("-");
   const overlappingBookings = await bookingModel.find({
     $or: [
       { pickupdate: { $gte: pickup_date, $lte: return_date } },
