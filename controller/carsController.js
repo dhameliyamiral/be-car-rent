@@ -190,7 +190,7 @@ const carsfilter = async (req, res) => {
   const { date_time_range ,location } = req.body;
   const [pickup_date, return_date] = date_time_range.split("-");
   const overlappingBookings = await bookingModel.find({
-    $or: [
+    $nor: [
       { pickupdate: { $gte: pickup_date, $lte: return_date } },
       { returndate: { $gte: pickup_date, $lte: return_date } },
       {
@@ -203,7 +203,6 @@ const carsfilter = async (req, res) => {
   });
   const bookedCarIds = overlappingBookings.map((booking) => booking.car_id);
   const avilableCars = await carsInsertModel.find({
-    location:location,
     _id: { $nin: bookedCarIds },
   });
 
