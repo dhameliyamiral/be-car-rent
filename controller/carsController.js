@@ -203,6 +203,7 @@ const carsfilter = async (req, res) => {
   });
   const bookedCarIds = overlappingBookings.map((booking) => booking.car_id);
   const avilableCars = await carsInsertModel.find({
+    location:location,
     _id: { $nin: bookedCarIds },
   });
 
