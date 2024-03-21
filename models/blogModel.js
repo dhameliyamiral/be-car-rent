@@ -12,10 +12,10 @@ const blogSchema = new mongoose.Schema({
         type:String,
         required:true,
     },
-    deletedAt:{
-        type:Date,
-        required:true
-    }
+    deletedAt: {
+        type: Date,
+        default: null,
+      }
 },{ timestamps: true });
 const blogModel = mongoose.model("blogDetails",blogSchema);
 module.exports = blogModel;
