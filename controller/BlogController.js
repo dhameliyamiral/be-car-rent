@@ -30,24 +30,34 @@ else
 }
 }
 const deleteBlog = async(req,res)=>{
-    try {
-        const { bloag_id } = req.body;
-        date = new Date();
-        const product = await blogModel.findOne({
-          _id: bloag_id,
-        });
-        const result = await blogModel.findOneAndUpdate(
-          { _id: product.id },
-          { $set: { deletedAt: date } }
-        );
-        if (!result) {
-          res.json({ message: "documnet is not found" });
-        }
-        res.json({ message: "Documnet Deleted Successfully..!!" });
-      } catch (error) {
-        console.log(error);
-        return res.json({ status: 500, message: "intrnal server error" });
-      }
+  const { bloag_id } = req.body;
+
+  // Find the record by id and delete it
+  const deletedRecord = await blogModel.findByIdAndDelete(bloag_id);
+
+  if (!deletedRecord) {
+      return res.status(404).send('The record with the given ID was not found.');
+  }
+
+  res.send('Record deleted successfully');
+    // try {
+    //     const { bloag_id } = req.body;
+    //     date = new Date();
+    //     const product = await blogModel.findOne({
+    //       _id: bloag_id,
+    //     });
+    //     const result = await blogModel.findOneAndUpdate(
+    //       { _id: product.id },
+    //       { $set: { deletedAt: date } }
+    //     );
+    //     if (!result) {
+    //       res.json({ message: "documnet is not found" });
+    //     }
+    //     res.json({ message: "Documnet Deleted Successfully..!!" });
+    //   } catch (error) {
+    //     console.log(error);
+    //     return res.json({ status: 500, message: "intrnal server error" });
+    //   }
 }
 const UpdateBlogController = async (req, res) => {
     const {
