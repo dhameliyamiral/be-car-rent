@@ -62,7 +62,7 @@ const carsInsertController = async (req, res) => {
       return res.json({ status: 500, message: "intrnal server error" });
     }
   } else {
-    return res.json({ status: 200, message: "all field are required" });
+    return res.json({ status: 400, message: "all field are required" });
   }
 };
 const carsDeleteController = async (req, res) => {
@@ -189,104 +189,110 @@ const displayCart = async (req, res) => {
 };
 
 const carsfilter = async (req, res) => {
-  const { date_time_range, location } = req.body;
-  let [pickupDate, returnDate] = date_time_range.split("-");
+  const { date_time_range, pickup_Location,dropoff_Location} = req.body;
+  if(date_time_range&& pickup_Location&&dropoff_Location){
+    let [pickupDate, returnDate] = date_time_range.split("-");
 
-  let [day, month, year] = pickupDate.split("/");
-  pickupDate = new Date(`${year}-${month}-${day}`);
-
-  let [return_dateday, return_datemonth, return_dateyear] =
-    returnDate.split("/");
-  returnDate = new Date(
-    `${return_dateyear}-${return_datemonth}-${return_dateday}`
-  );
-
-  if (pickupDate < returnDate) {
-    const carlist = await carsInsertModel.aggregate([
-      {
-        $lookup: {
-          from: "bookings",
-          localField: "_id",
-          foreignField: "car_id",
-          as: "booking",
+    let [day, month, year] = pickupDate.split("/");
+    pickupDate = new Date(`${year}-${month}-${day}`);
+  
+    let [return_dateday, return_datemonth, return_dateyear] =
+      returnDate.split("/");
+    returnDate = new Date(
+      `${return_dateyear}-${return_datemonth}-${return_dateday}`
+    );
+  
+    if (pickupDate < returnDate) {
+      const carlist = await carsInsertModel.aggregate([
+        {
+          $lookup: {
+            from: "bookings",
+            localField: "_id",
+            foreignField: "car_id",
+            as: "booking",
+          },
         },
-      },
-      {
-        $unwind: {
-          path: "$booking",
-          includeArrayIndex: "string",
+        {
+          $unwind: {
+            path: "$booking",
+            includeArrayIndex: "string",
+          },
         },
-      },
-      {
-        $addFields: {
-          booking_pickup_date: "$booking.pickup_date",
-          booking_return_date: "$booking.return_date",
+        {
+          $addFields: {
+            booking_pickup_date: "$booking.pickup_date",
+            booking_return_date: "$booking.return_date",
+          },
         },
-      },
-      {
-        $project: {
-          booking: 0,
-          __v: 0,
+        {
+          $project: {
+            booking: 0,
+            __v: 0,
+          },
         },
-      },
-      {
-        $addFields: {
-          pickupDate: pickupDate,
-          returnDate: returnDate,
+        {
+          $addFields: {
+            pickupDate: pickupDate,
+            returnDate: returnDate,
+          },
         },
-      },
-      {
-        $addFields: {
-          isBooked: {
-            $cond: {
-              if: {
-                $or: [
-                  {
-                    $and: [
-                      { $lte: ["$booking_pickup_date", "$pickupDate"] },
-                      { $gte: ["$booking_return_date", "$pickupDate"] },
-                    ],
-                  },
-                  {
-                    $and: [
-                      { $lte: ["$booking_pickup_date", "$returnDate"] },
-                      { $gte: ["$booking_return_date", "$returnDate"] },
-                    ],
-                  },
-                ],
+        {
+          $addFields: {
+            isBooked: {
+              $cond: {
+                if: {
+                  $or: [
+                    {
+                      $and: [
+                        { $lte: ["$booking_pickup_date", "$pickupDate"] },
+                        { $gte: ["$booking_return_date", "$pickupDate"] },
+                      ],
+                    },
+                    {
+                      $and: [
+                        { $lte: ["$booking_pickup_date", "$returnDate"] },
+                        { $gte: ["$booking_return_date", "$returnDate"] },
+                      ],
+                    },
+                  ],
+                },
+                then: "BOOKED",
+                else: "NO_BOOKED",
               },
-              then: "BOOKED",
-              else: "NO_BOOKED",
             },
           },
         },
-      },
-      {
-        $match: {
-          isBooked: "NO_BOOKED",
+        {
+          $match: {
+            isBooked: "NO_BOOKED",
+          },
         },
-      },
-      {
-        $project: {
-          isBooked: 0,
-          booking_pickup_date: 0,
-          booking_return_date: 0,
-          deletedAt: 0,
-          updatedAt: 0,
-          pickupDate: 0,
-          returnDate: 0,
+        {
+          $project: {
+            isBooked: 0,
+            booking_pickup_date: 0,
+            booking_return_date: 0,
+            deletedAt: 0,
+            updatedAt: 0,
+            pickupDate: 0,
+            returnDate: 0,
+          },
         },
-      },
-    ]);
-
-    return res.json({
-      carlist,
-    });
-  } else {
-    return res.json({
-      status: 400,
-      message: "BED REQ",
-    });
+      ]);
+  
+      return res.json({
+        carlist,
+      });
+    } else {
+      return res.json({
+        status: 400,
+        message: "BED REQ",
+      });
+  }
+  
+  }
+  else{
+    res.json({status})
   }
 };
 module.exports = {
