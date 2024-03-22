@@ -149,52 +149,50 @@ const bookingdisplay = async (req, res) => {
   };
   res.json(combined);
 };
-const searchbooking = async (req, res) => {
-  const { date_time_range } = req.query;
-  const [pickup_date, return_date] = date_time_range.split("-");
-  const dateFormat = "YYYY-MM-DD";
-  const currentDate = moment().startOf("day");
-  if (
-    moment(pickup_date, dateFormat) < currentDate ||
-    moment(return_date, dateFormat) < currentDate
-  ) {
-    return res.json({ message: "Dates should be in the future" });
-  }
-  if (moment(return_date, dateFormat) <= moment(pickup_date, dateFormat)) {
-    return res.json({ message: "Return date should be after pickup date" });
-  }
-  const bookings = await bookingModel.find({
-    // $or: [
-    //   { pickup_date: { $gte: pickup_date, $lte: return_date } },
-    //   { return_date: { $gte: pickup_date, $lte: return_date } },
-    // ],
-    $or: [
-      { 
-        $and: [
-          { pickup_date: { $lte: pickup_date } }, 
-          { return_date: { $gte: pickup_date } }
-        ] 
-      },
-      { 
-        $and: [
-          { pickup_date: { $lte: return_date } }, 
-          { return_date: { $gte: return_date  } }
-        ] 
-      },
-      { 
-        $and: [
-          { pickup_date: { $gte: pickup_date, $lte: return_date  } }
-        ] 
-      }
-    ]
+
+// const searchbooking = async (req, res) => {
+//   const { date_time_range } = req.query;
+//   const [pickup_date, return_date] = date_time_range.split("-");
+//   const dateFormat = "YYYY-MM-DD";
+//   const currentDate = moment().startOf("day");
+//   if (
+//     moment(pickup_date, dateFormat) < currentDate ||
+//     moment(return_date, dateFormat) < currentDate
+//   ) {
+//     return res.json({ message: "Dates should be in the future" });
+//   }
+//   if (moment(return_date, dateFormat) <= moment(pickup_date, dateFormat)) {
+//     return res.json({ message: "Return date should be after pickup date" });
+//   }
+//   const bookings = await bookingModel.find({
+//     $or: [
+//       { 
+//         $and: [
+//           { pickup_date: { $lte: pickup_date } }, 
+//           { return_date: { $gte: pickup_date } }
+//         ] 
+//       },
+//       { 
+//         $and: [
+//           { pickup_date: { $lte: return_date } }, 
+//           { return_date: { $gte: return_date  } }
+//         ] 
+//       },
+//       { 
+//         $and: [
+//           { pickup_date: { $gte: pickup_date, $lte: return_date  } }
+//         ] 
+//       }
+//     ]
   
-  });
-  const bookedCarIds = bookings.map((bookingModel) => bookingModel.car_id);
-  const availableCars = await carsInsertModel.find({
-    _id: { $nin: bookedCarIds },
-  });
-  res.json(availableCars);
-};
+//   });
+//   const bookedCarIds = bookings.map((bookingModel) => bookingModel.car_id);
+//   const availableCars = await carsInsertModel.find({
+//     _id: { $nin: bookedCarIds },
+//   });
+//   res.json(availableCars);
+// };
+
 const adminbookingdispaly = async(req,res)=>{
   const bookingdata = await bookingModel.find();
   console.log("data==", bookingdata);
@@ -215,6 +213,5 @@ module.exports = {
   adminbookingdispaly,
   bookingUpdate,
   bookingCancel,
-  bookingdisplay,
-  searchbooking,
+  bookingdisplay
 };

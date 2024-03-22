@@ -39,7 +39,7 @@ const {
   bookingCancel,
   bookingUpdate,
   bookingdisplay,
-  searchbooking,
+
   adminbookingdispaly,
 } = require("../controller/bookingController");
 // console.log("searchbooking =",searchbooking);
@@ -81,7 +81,7 @@ router.post("/updatePassword", updatePassword);
 router.post("/adminLogin", adminLogin);
 router.post("/contact", ContactController);
 router.post("/caradd", adminAuthMiddlewares, carsInsertController);
-router.post("/carsfilter", carsfilter);
+router.get("/carsfilter", carsfilter);
 router.post("/createBlog", createBlog);
 router.post("/addcarscart", userAuthMiddlewares, addcarscart);
 router.get("/cardisplay", carsDisplayController);
@@ -90,7 +90,6 @@ router.post("/carupdate", adminAuthMiddlewares, carsUpdateController);
 router.post("/bookingcars", userAuthMiddlewares, bookinginsertApi);
 router.post("/bookingcancel", userAuthMiddlewares, bookingCancel);
 router.post("/bookingUpdate", userAuthMiddlewares, bookingUpdate);
-router.get("/searchbooking", searchbooking);
 router.get("/admindisplayuser", admindisplayuser);
 router.post("/deleteBlog", deleteBlog);
 router.get("/admindisplaysubscribation", admindisplaysubscribation);
