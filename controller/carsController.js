@@ -187,21 +187,20 @@ const displayCart = async (req, res) => {
   const Cartdata = await CartModel.find({ user_id });
   res.json(Cartdata);
 };
-
 const carsfilter = async (req, res) => {
-  const { date_time_range, pickup_Location,dropoff_Location} = req.body;
-  if(date_time_range&& pickup_Location&&dropoff_Location){
+  const { date_time_range, pickup_Location, dropoff_Location } = req.body;
+  if (date_time_range && pickup_Location && dropoff_Location) {
     let [pickupDate, returnDate] = date_time_range.split("-");
 
     let [day, month, year] = pickupDate.split("/");
     pickupDate = new Date(`${year}-${month}-${day}`);
-  
+
     let [return_dateday, return_datemonth, return_dateyear] =
       returnDate.split("/");
     returnDate = new Date(
       `${return_dateyear}-${return_datemonth}-${return_dateday}`
     );
-  
+
     if (pickupDate < returnDate) {
       const carlist = await carsInsertModel.aggregate([
         {
@@ -279,7 +278,7 @@ const carsfilter = async (req, res) => {
           },
         },
       ]);
-  
+
       return res.json({
         carlist,
       });
@@ -288,11 +287,9 @@ const carsfilter = async (req, res) => {
         status: 400,
         message: "Bad Request",
       });
-  }
-  
-  }
-  else{
-    res.json({status: 400, message: "all field are required"});
+    }
+  } else {
+    res.json({ status: 400, message: "all field are required" });
   }
 };
 module.exports = {

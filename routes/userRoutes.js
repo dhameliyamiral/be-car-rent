@@ -11,10 +11,17 @@ const {
   CommentsController,
   displaycommentController,
 } = require("../controller/CommentsController");
-const { subscribationController ,admindisplaysubscribation} = require("../controller/subscribationController")
+const {
+  subscribationController,
+  admindisplaysubscribation,
+} = require("../controller/subscribationController");
 const { userAuthMiddlewares } = require("../middlewares/userAuthMiddlewares");
 const { adminAuthMiddlewares } = require("../middlewares/adminAuthMiddlewares");
-const { userRegApi, userLoginApi,admindisplayuser } = require("../controller/usersController");
+const {
+  userRegApi,
+  userLoginApi,
+  admindisplayuser,
+} = require("../controller/usersController");
 const {
   carsInsertController,
   carsDeleteController,
@@ -33,7 +40,7 @@ const {
   bookingUpdate,
   bookingdisplay,
   searchbooking,
-  adminbookingdispaly
+  adminbookingdispaly,
 } = require("../controller/bookingController");
 // console.log("searchbooking =",searchbooking);
 const {
@@ -51,9 +58,14 @@ const {
 //     res.send({error})
 //   }
 // })
-const {createBlog,deleteBlog,UpdateBlogController}=require("../controller/BlogController")
-router.get("/adminbookingdispaly",adminAuthMiddlewares,adminbookingdispaly)
-router.post("/subscribation",subscribationController)
+const {
+  createBlog,
+  deleteBlog,
+  UpdateBlogController,displayBlog
+} = require("../controller/BlogController");
+router.get("/displayBlog",displayBlog)
+router.get("/adminbookingdispaly", adminAuthMiddlewares, adminbookingdispaly);
+router.post("/subscribation", subscribationController);
 router.get("/displayCart", userAuthMiddlewares, displayCart);
 router.get("/displayComment", displaycommentController);
 router.post("/addComments", CommentsController);
@@ -70,7 +82,7 @@ router.post("/adminLogin", adminLogin);
 router.post("/contact", ContactController);
 router.post("/caradd", adminAuthMiddlewares, carsInsertController);
 router.post("/carsfilter", carsfilter);
-router.post("/createBlog",createBlog)
+router.post("/createBlog", createBlog);
 router.post("/addcarscart", userAuthMiddlewares, addcarscart);
 router.get("/cardisplay", carsDisplayController);
 router.post("/cardelete", adminAuthMiddlewares, carsDeleteController);
@@ -79,8 +91,8 @@ router.post("/bookingcars", userAuthMiddlewares, bookinginsertApi);
 router.post("/bookingcancel", userAuthMiddlewares, bookingCancel);
 router.post("/bookingUpdate", userAuthMiddlewares, bookingUpdate);
 router.get("/searchbooking", searchbooking);
-router.get("/admindisplayuser",admindisplayuser);
-router.post("/deleteBlog",deleteBlog)
-router.get("/admindisplaysubscribation",admindisplaysubscribation)
-router.post("/UpdateBlog",UpdateBlogController)
+router.get("/admindisplayuser", admindisplayuser);
+router.post("/deleteBlog", deleteBlog);
+router.get("/admindisplaysubscribation", admindisplaysubscribation);
+router.post("/UpdateBlog", UpdateBlogController);
 module.exports = router;

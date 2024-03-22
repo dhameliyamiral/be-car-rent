@@ -77,4 +77,8 @@ const UpdateBlogController = async (req, res) => {
       return res.json({ status: 500, message: "intrnal server error" });
     }
 };
-module.exports = {createBlog,deleteBlog,UpdateBlogController}
+const displayBlog = async(req,res)=>{
+const data = await blogModel.find();
+return res.json(data)
+}
+module.exports = {createBlog,deleteBlog,UpdateBlogController,displayBlog}
