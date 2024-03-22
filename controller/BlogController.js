@@ -10,7 +10,7 @@ if(Image&&details&&heading){
         const data = new blogModel({
             Image:Image,
             details:details,
-            heding:heading
+            heading:heading
         })
         await data.save();
         return res.json({
