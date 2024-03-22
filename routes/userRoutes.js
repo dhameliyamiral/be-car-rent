@@ -81,7 +81,7 @@ router.post("/updatePassword", updatePassword);
 router.post("/adminLogin", adminLogin);
 router.post("/contact", ContactController);
 router.post("/caradd", adminAuthMiddlewares, carsInsertController);
-router.get("/carsfilter", carsfilter);
+router.post("/carsfilter", carsfilter);
 router.post("/createBlog", createBlog);
 router.post("/addcarscart", userAuthMiddlewares, addcarscart);
 router.get("/cardisplay", carsDisplayController);
