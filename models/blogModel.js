@@ -8,7 +8,7 @@ const blogSchema = new mongoose.Schema({
         type:String,
         required:true,
     },
-    heding:{
+    heading:{
         type:String,
         required:true,
     },

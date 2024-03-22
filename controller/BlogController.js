@@ -3,14 +3,14 @@ const createBlog = async (req,res)=>{
 const {
 Image,
 details,
-heding
+heading
 } = req.body;
-if(Image&&details&&heding){
+if(Image&&details&&heading){
     try {
         const data = new blogModel({
             Image:Image,
             details:details,
-            heding:heding
+            heding:heading
         })
         await data.save();
         return res.json({
@@ -53,7 +53,7 @@ const UpdateBlogController = async (req, res) => {
     const {
         bloag_id,
         details,
-        heding,
+        heading,
         Image
     } = req.body;
     try {
@@ -67,7 +67,7 @@ const UpdateBlogController = async (req, res) => {
           $set: {
             bloag_id,
             details,
-            heding,
+            heading,
             Image
           },
         }
