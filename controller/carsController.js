@@ -1,5 +1,4 @@
 const carsInsertModel = require("../models/carsInsertModel");
-const CartModel = require("../models/CartModel");
 const bookingModel = require("../models/bookingModel");
 const { carUploadService } = require("../services/carUploadService");
 const path = require("path");
@@ -33,7 +32,9 @@ const carsInsertController = async (req, res) => {
     Image
   ) {
     if (!["petrol", "diesel", "cng"].includes(fuel.toLowerCase())) {
-      return res.status(400).json({ status: 400, message: "Invalid fuel type" });
+      return res
+        .status(400)
+        .json({ status: 400, message: "Invalid fuel type" });
     }
     try {
       const data = new carsInsertModel({
@@ -128,12 +129,12 @@ const carsUpdateController = async (req, res) => {
 };
 const carsDisplayController = async (req, res) => {
   try {
-    const { fuel, price, brand,seats } = req.query;
+    const { fuel, price, brand, seats } = req.query;
     const filter = {};
     if (fuel) {
       filter.fuel = fuel;
     }
-    if(seats){
+    if (seats) {
       filter.seats = seats;
     }
     if (price) {
@@ -143,7 +144,7 @@ const carsDisplayController = async (req, res) => {
     if (brand) {
       filter.brand = brand;
     }
-    let query = carsInsertModel.find({deletedAt: null});
+    let query = carsInsertModel.find({ deletedAt: null });
     if (Object.keys(filter).length > 0) {
       query = query.where(filter);
     }
@@ -188,105 +189,105 @@ const displayCart = async (req, res) => {
 };
 
 const carsfilter = async (req, res) => {
-  const { date_time_range ,location } = req.body;
+  const { date_time_range, location } = req.body;
   let [pickupDate, returnDate] = date_time_range.split("-");
-    
+
   let [day, month, year] = pickupDate.split("/");
   pickupDate = new Date(`${year}-${month}-${day}`);
 
-   let [return_dateday, return_datemonth, return_dateyear] = returnDate.split("/");
-   returnDate = new Date(`${return_dateyear}-${return_datemonth}-${return_dateday}`);
+  let [return_dateday, return_datemonth, return_dateyear] =
+    returnDate.split("/");
+  returnDate = new Date(
+    `${return_dateyear}-${return_datemonth}-${return_dateday}`
+  );
 
-
-  if(pickupDate < returnDate){
-   const carlist = await carsInsertModel.aggregate([ 
-    {
-    '$lookup': {
-      'from': 'bookings', 
-      'localField': '_id', 
-      'foreignField': 'car_id', 
-      'as': 'booking'
-    }
-  },
-  {
-    '$unwind': {
-      'path': '$booking', 
-      'includeArrayIndex': 'string'
-    }
-  },
-  {
-    $addFields: {
-      booking_pickup_date: '$booking.pickup_date',
-      booking_return_date: '$booking.return_date'
-    }
-  },
-  {
-    $project:{
-      booking : 0,
-      __v : 0
-    }
-  },
-  {
-    $addFields:{
-      pickupDate: pickupDate,
-      returnDate: returnDate
-    }
-  },
-  {
-    "$addFields": {
-      "isBooked": {
-        "$cond": {
-          "if": {
-            "$or": [
-              { 
-                "$and": [
-                  { "$lte": ["$booking_pickup_date", "$pickupDate"] },
-                  { "$gte": ["$booking_return_date", "$pickupDate"] }
-                ]
+  if (pickupDate < returnDate) {
+    const carlist = await carsInsertModel.aggregate([
+      {
+        $lookup: {
+          from: "bookings",
+          localField: "_id",
+          foreignField: "car_id",
+          as: "booking",
+        },
+      },
+      {
+        $unwind: {
+          path: "$booking",
+          includeArrayIndex: "string",
+        },
+      },
+      {
+        $addFields: {
+          booking_pickup_date: "$booking.pickup_date",
+          booking_return_date: "$booking.return_date",
+        },
+      },
+      {
+        $project: {
+          booking: 0,
+          __v: 0,
+        },
+      },
+      {
+        $addFields: {
+          pickupDate: pickupDate,
+          returnDate: returnDate,
+        },
+      },
+      {
+        $addFields: {
+          isBooked: {
+            $cond: {
+              if: {
+                $or: [
+                  {
+                    $and: [
+                      { $lte: ["$booking_pickup_date", "$pickupDate"] },
+                      { $gte: ["$booking_return_date", "$pickupDate"] },
+                    ],
+                  },
+                  {
+                    $and: [
+                      { $lte: ["$booking_pickup_date", "$returnDate"] },
+                      { $gte: ["$booking_return_date", "$returnDate"] },
+                    ],
+                  },
+                ],
               },
-              {
-                "$and": [
-                  { "$lte": ["$booking_pickup_date", "$returnDate"] },
-                  { "$gte": ["$booking_return_date", "$returnDate"] }
-                ]
-              }
-            ]
+              then: "BOOKED",
+              else: "NO_BOOKED",
+            },
           },
-          "then": "BOOKED",
-          "else": "NO_BOOKED"
-        }
-      }
-    }
-  },{
-    $match:{
-      isBooked : "NO_BOOKED"
-    }  },{
-      $project:{
-        isBooked : 0,
-        booking_pickup_date  : 0,
-        booking_return_date : 0,
-        deletedAt : 0,
-        updatedAt : 0,
-        pickupDate :0,
-        returnDate :0
-      }
-    }
-])
-
-
-
+        },
+      },
+      {
+        $match: {
+          isBooked: "NO_BOOKED",
+        },
+      },
+      {
+        $project: {
+          isBooked: 0,
+          booking_pickup_date: 0,
+          booking_return_date: 0,
+          deletedAt: 0,
+          updatedAt: 0,
+          pickupDate: 0,
+          returnDate: 0,
+        },
+      },
+    ]);
 
     return res.json({
-      carlist
-    })
-    
-  }else{
+      carlist,
+    });
+  } else {
     return res.json({
       status: 400,
-      message: "BED REQ"
-    })
+      message: "BED REQ",
+    });
   }
-
 };
 module.exports = {
   carsInsertController,
