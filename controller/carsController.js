@@ -286,13 +286,13 @@ const carsfilter = async (req, res) => {
     } else {
       return res.json({
         status: 400,
-        message: "BED REQ",
+        message: "Bad Request",
       });
   }
   
   }
   else{
-    res.json({status})
+    res.json({status: 400, message: "all field are required"});
   }
 };
 module.exports = {
