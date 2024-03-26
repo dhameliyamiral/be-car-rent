@@ -200,7 +200,6 @@ const carsfilter = async (req, res) => {
     returnDate = new Date(
       `${return_dateyear}-${return_datemonth}-${return_dateday}`
     );
-
     if (pickupDate < returnDate) {
       const carlist = await carsInsertModel.aggregate([
         {

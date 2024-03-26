@@ -32,7 +32,9 @@ const {
   displayCart,
 } = require("../controller/carsController");
 
-const { adminLogin } = require("../controller/adminLogin");
+const {adminreg,adminLogin} = require("../controller/adminLogin");
+console.log("adminreg=",adminreg);
+
 const { ContactController } = require("../controller/ContactController");
 const {
   bookinginsertApi,
@@ -69,6 +71,7 @@ router.post("/subscribation", subscribationController);
 router.get("/displayCart", userAuthMiddlewares, displayCart);
 router.get("/displayComment", displaycommentController);
 router.post("/addComments", CommentsController);
+router.post("/adminreg",adminreg)
 router.get("/bookingdisplay", userAuthMiddlewares, bookingdisplay);
 router.post("/payment", userAuthMiddlewares, initiate);
 router.post("/capture_payment", userAuthMiddlewares, capture_payment);
