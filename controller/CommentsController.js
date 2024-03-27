@@ -30,10 +30,10 @@ const deleteCommentController = async (req, res) => {
     if (!deletedRecord) {
       return res
         .status(404)
-        .send("The record with the given ID was not found.");
+        .json("The record with the given ID was not found.");
     }
 
-    res.send("Record deleted successfully");
+    res.json("Record deleted successfully");
   } catch (error) {
     console.log(error);
     return res.json({ status: 500, message: "intrnal server error" });
