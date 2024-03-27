@@ -149,8 +149,8 @@ const bookingdisplay = async (req, res) => {
   };
   res.json(combined);
 };
-
 // const searchbooking = async (req, res) => {
+
 //   const { date_time_range } = req.query;
 //   const [pickup_date, return_date] = date_time_range.split("-");
 //   const dateFormat = "YYYY-MM-DD";

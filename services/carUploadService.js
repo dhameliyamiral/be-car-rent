@@ -11,7 +11,6 @@ const carUploadService=[];
 //         cb(null,filename)
 //     }  
 // })
-
 // const fileFilter = (req, file, cb) => {
 //     console.log("fileFilter");
 //     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg' || file.mimetype === 'image/png') {

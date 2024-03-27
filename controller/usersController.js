@@ -5,7 +5,7 @@ const nodemailer = require("nodemailer");
 const userModel = require("../models/userModel");
 const authService = require("../services/authService");
 dotenv.config();
-const userRegApi = async (req, res) => {
+const userRegApi = async (req, res) => {  
   const { fname, lname, email, mobile, password, gender } = req.body;
   if (fname && lname && email && mobile && password && gender) {
     try {
@@ -66,7 +66,11 @@ const userLoginApi = async (req, res) => {
     if (email && password) {
       const user = await authService.findOne({ email: email });
       if (user) {
+      console.log("user = ",user);
+      console.log("user.password = ",user.password);
         const ismatch = bcrypt.compareSync(password, user.password);
+        
+        console.log("ismatch = ",ismatch);
         if (ismatch) {
           const token = jwt.sign(
             {

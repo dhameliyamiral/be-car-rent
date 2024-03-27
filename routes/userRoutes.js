@@ -9,7 +9,7 @@ const { initiate, capture_payment } = require("../controller/payment");
 const { contactDisplay } = require("../controller/contactDisplay");
 const {
   CommentsController,
-  displaycommentController,
+  displaycommentController,deleteCommentController
 } = require("../controller/CommentsController");
 const {
   subscribationController,
@@ -31,9 +31,8 @@ const {
   carsfilter,
   displayCart,
 } = require("../controller/carsController");
-
 const {adminreg,adminLogin} = require("../controller/adminLogin");
-console.log("adminreg=",adminreg);
+// console.log("adminreg=",adminreg);
 
 const { ContactController } = require("../controller/ContactController");
 const {
@@ -72,6 +71,7 @@ router.get("/displayCart", userAuthMiddlewares, displayCart);
 router.get("/displayComment", displaycommentController);
 router.post("/addComments", CommentsController);
 router.post("/adminreg",adminreg)
+router.post("/deleteComment",deleteCommentController)
 router.get("/bookingdisplay", userAuthMiddlewares, bookingdisplay);
 router.post("/payment", userAuthMiddlewares, initiate);
 router.post("/capture_payment", userAuthMiddlewares, capture_payment);
