@@ -46,6 +46,7 @@ const bookinginsertApi = async (req, res) => {
         return_time,
         price
       });
+      
       bookingService.create(data).then((data) => {
         res.status(200).json({ message: "Booking Successfully..!!", data });
       });
@@ -192,7 +193,6 @@ const bookingdisplay = async (req, res) => {
 //   });
 //   res.json(availableCars);
 // };
-
 const adminbookingdispaly = async(req,res)=>{
   const bookingdata = await bookingModel.find();
   console.log("data==", bookingdata);

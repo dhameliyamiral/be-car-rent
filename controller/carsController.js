@@ -4,6 +4,7 @@ const { carUploadService } = require("../services/carUploadService");
 const path = require("path");
 const tempPath = path.join(__dirname, "./../uploads");
 console.log("temp = path === ", tempPath);
+const moment = require("moment");
 const carsInsertController = async (req, res) => {
   const {
     plate_number,
@@ -191,15 +192,27 @@ const carsfilter = async (req, res) => {
   const { date_time_range, pickup_Location, dropoff_Location } = req.body;
   if (date_time_range && pickup_Location && dropoff_Location) {
     let [pickupDate, returnDate] = date_time_range.split("-");
-
+    const dateFormat = "YYYY-MM-DD";
+    const currentDate = moment().startOf("day");
     let [day, month, year] = pickupDate.split("/");
     pickupDate = new Date(`${year}-${month}-${day}`);
-
+   
     let [return_dateday, return_datemonth, return_dateyear] =
       returnDate.split("/");
     returnDate = new Date(
       `${return_dateyear}-${return_datemonth}-${return_dateday}`
     );
+
+    if (
+      moment(pickupDate, dateFormat) < currentDate ||
+      moment(returnDate, dateFormat) < currentDate
+    ) {
+      return res.json({ message: "Dates should be in the future" });
+    }
+    if (moment(returnDate, dateFormat) <= moment(pickupDate, dateFormat)) {
+      return res.json({ message: "Return date should be after pickup date" });
+    }
+ 
     if (pickupDate < returnDate) {
       const carlist = await carsInsertModel.aggregate([
         {
