@@ -1,7 +1,7 @@
-const carsInsertModel = require("../models/carsInsertModel")
+const carsInsertModel = require("../models/carsInsertModel");
 // const multer =require("multer");
-const path = require('path');
-const carUploadService=[];
+const path = require("path");
+const carUploadService = [];
 // const storage = multer.diskStorage({
 //     destination:(req,file,cb)=>{
 //         cb(null,'uploads/');
@@ -9,7 +9,7 @@ const carUploadService=[];
 //     filename:(req,file,cb)=>{
 //         const filename=`${Date.now()}-${file.originalname}`;
 //         cb(null,filename)
-//     }  
+//     }
 // })
 // const fileFilter = (req, file, cb) => {
 //     console.log("fileFilter");
@@ -20,14 +20,20 @@ const carUploadService=[];
 //     }
 // };
 // const upload = multer({storage,fileFilter})
-carUploadService.create = async(param)=>{
-    console.log("service");
-    const data = await carsInsertModel.create(param).then(e=>e).catch(e=>e);
-    return data;
-}
-carUploadService.findOne=async(param)=>{
-    const data = await carsInsertModel.findOne(param).then(e=>e).catch(e=>e);
-    return data;
-}
+carUploadService.create = async (param) => {
+  console.log("service");
+  const data = await carsInsertModel
+    .create(param)
+    .then((e) => e)
+    .catch((e) => e);
+  return data;
+};
+carUploadService.findOne = async (param) => {
+  const data = await carsInsertModel
+    .findOne(param)
+    .then((e) => e)
+    .catch((e) => e);
+  return data;
+};
 
-module.exports = {carUploadService}; 
+module.exports = { carUploadService };

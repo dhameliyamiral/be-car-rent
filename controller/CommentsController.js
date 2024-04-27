@@ -26,17 +26,19 @@ const deleteCommentController = async (req, res) => {
   const { comment_id } = req.body;
   try {
     const deletedRecord = await addCommentsModels.findByIdAndDelete(comment_id);
-
     if (!deletedRecord) {
       return res
         .status(404)
         .json("The record with the given ID was not found.");
     }
-
     res.json("Record deleted successfully");
   } catch (error) {
     console.log(error);
     return res.json({ status: 500, message: "intrnal server error" });
   }
 };
-module.exports = { CommentsController, displaycommentController,deleteCommentController };
+module.exports = {
+  CommentsController,
+  displaycommentController,
+  deleteCommentController,
+};

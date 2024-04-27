@@ -37,7 +37,7 @@ const subscribationController = async(req,res)=>{
       res.json({data:data})
 }
 const admindisplaysubscribation = async(req,res)=>{
-  const data = await subscribModel.find();
+  const data = await subscribModel.find({deletedAt: null});
     res.json({status:200,message:{data}})
 }
 module.exports = {subscribationController,admindisplaysubscribation}

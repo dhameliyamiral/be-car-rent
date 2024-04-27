@@ -105,7 +105,6 @@ const carsUpdateController = async (req, res) => {
     const product = await carUploadService.findOne({
       plate_number: plate_number,
     });
-
     await carsInsertModel.findByIdAndUpdate(
       { _id: product.id },
       {
